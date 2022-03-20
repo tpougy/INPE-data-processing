@@ -1,0 +1,137 @@
+{
+    "global": {
+        "description": "Data collected from a Micro Rain Radar in the ATTO-campina site",
+        "command_line": "N/A",
+        "conventions": "N/A",
+        "dod_version": "N/A",
+        "input_source": "N/A",
+        "site_id": "N/A",
+        "platform_id": "mrr",
+        "facility_id": "cam",
+        "data_level": "b0",
+        "location_description": "Amazon Tall Tower Observatory (ATTO), Amazonia, Brazil",
+        "datastream": "attmrrcam.b0",
+        "serial_number": "1 minute",
+        "sampling_interval": "1 minute",
+        "averaging_interval": "N/A",
+        "doi": "N/A"
+    },
+    "dimensions": {
+        "profile": {
+            "symbol": "profile"
+        },
+        "time": {
+            "symbol": "time"
+        },
+        "Ndrop": {
+            "symbol": "Ndrop"
+        }
+    },
+    "variables": {
+        "lat": {
+            "symbol": "lat",
+            "units": "degrees east",
+            "longname": "latitude",
+            "value": "-59.0218"
+        },
+        "lon": {
+            "symbol": "lon",
+            "units": "degrees north",
+            "longname": "longitude",
+            "value": "2.1814"
+        },
+        "alt": {
+            "symbol": "alt",
+            "units": "meters above sea level",
+            "longname": "altitude",
+            "value": "37"
+        },
+        "base_time": {
+            "symbol": "base_time",
+            "units": "seconds since 1970-1-1 00:00:00",
+            "longname": "Base time in Epoch"
+        },
+        "time_offset": {
+            "symbol": "time_offset",
+            "units": "seconds since base_time",
+            "longname": "Time offset from base_time"
+        },
+        "time": {
+            "symbol": "time",
+            "units": "seconds since midnight",
+            "longname": "Time offset from midnight GMT"
+        },
+        "mdq": {
+            "symbol": "mdq",
+            "units": "%",
+            "longname": "MRR Data Quality",
+            "missing_value": "-999.0"
+        },
+        "height": {
+            "symbol": "height_mrr",
+            "units": "m",
+            "longname": "Height above ground",
+            "missing_value": "-999.0"
+        },
+        "TF": {
+            "symbol": "TF_mrr",
+            "units": "none",
+            "longname": "Transfer Function",
+            "missing_value": "-999.0"
+        },
+        "Fnn": {
+            "symbol": "Fnn_mrr",
+            "units": "dB",
+            "longname": "Spectral Reflectivities",
+            "missing_value": "-999.0"
+        },
+        "Dnn": {
+            "symbol": "Dnn_mrr",
+            "units": "mm",
+            "longname": "Drop Size diameter",
+            "missing_value": "-999.0"
+        },
+        "Nnn": {
+            "symbol": "Ndnn_mrr",
+            "units": "m^(-3)*mm^(-1)",
+            "longname": "Spectral Drop Densities",
+            "missing_value": "-999.0"
+        },
+        "PIA": {
+            "symbol": "PIA_mrr",
+            "units": "dB",
+            "longname": "Path Integrated Attenuation",
+            "missing_value": "-999.0"
+        },
+        "Z": {
+            "symbol": "Zdb_mrr",
+            "units": "dBZ",
+            "longname": "Radar Reflectivity",
+            "missing_value": "-999.0"
+        },
+        "z": {
+            "symbol": "Zdb_att_mrr",
+            "units": "dBZ",
+            "longname": "Attenuated Radar Reflectivity",
+            "missing_value": "-999.0"
+        },
+        "RR": {
+            "symbol": "rain_rate_mrr",
+            "units": "mm*h^(-1)",
+            "longname": "Rain Intensity",
+            "missing_value": "-999.0"
+        },
+        "LWC": {
+            "symbol": "liq_water_mrr",
+            "units": "g*m^(-3)",
+            "longname": "Liquid Water Content",
+            "missing_value": "-999.0"
+        },
+        "W": {
+            "symbol": "fall_vel_mrr",
+            "units": "m*s^(-1)",
+            "longname": "Fall Velocity",
+            "missing_value": "-999.0"
+        }
+    }
+}

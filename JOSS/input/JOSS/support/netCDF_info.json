@@ -1,0 +1,290 @@
+{
+    "global": {
+        "data_description": {
+            "name": "Data Description",
+            "shortname": "description",
+            "description": "General description of the data",
+            "unit": "none",
+            "datatype": "string",
+            "id": "695",
+            "optional": "True",
+            "value": "xyz xyz xyz"
+        },
+        "site_identifier": {
+            "name": "Site identifier",
+            "shortname": "id_int",
+            "description": "Site-id: identifies the sites name",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "696",
+            "optional": "True",
+            "value": "0"
+        },
+        "platform_identifier": {
+            "name": "Platform identifier",
+            "shortname": "id_int",
+            "description": "Platform-id: identifies the instrument",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "697",
+            "optional": "True",
+            "value": "0"
+        },
+        "facility_identifier": {
+            "name": "Facility identifier",
+            "shortname": "id_int",
+            "description": "Facility-id: identifies where the instrument is installed",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "698",
+            "optional": "True",
+            "value": "0"
+        },
+        "data_level": {
+            "name": "Data Level",
+            "shortname": "id_int",
+            "description": "Identifies the level of data processing (please, check the ATTO manual of the equipment)",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "699",
+            "optional": "True",
+            "value": "0"
+        },
+        "location": {
+            "name": "Location",
+            "shortname": "description",
+            "description": "Describes the place where the equipment is installed",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "700",
+            "optional": "True",
+            "value": "0"
+        },
+        "datastream": {
+            "name": "Datastream",
+            "shortname": "description",
+            "description": "Describes the applied datastream",
+            "unit": "none",
+            "datatype": "string",
+            "id": "701",
+            "optional": "True",
+            "value": "xyz"
+        },
+        "sampling_interval": {
+            "name": "Sampling Interval",
+            "shortname": "duration",
+            "description": "Measurement sampling interval",
+            "unit": "second",
+            "datatype": "double",
+            "id": "702",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "averaging_interval": {
+            "name": "Averaging Interval",
+            "shortname": "duration",
+            "description": "Averaging interval when applied",
+            "unit": "second",
+            "datatype": "double",
+            "id": "703",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "serial_number": {
+            "name": "Serial Number",
+            "shortname": "id_int",
+            "description": "Instrument serial number",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "704",
+            "optional": "True",
+            "value": "0"
+        },
+        "calibration_date": {
+            "name": "Calibration date",
+            "shortname": "day",
+            "description": "Calibration date",
+            "unit": "date",
+            "datatype": "datetime",
+            "id": "705",
+            "optional": "True",
+            "value": "2021-01-01",
+            "value-format": "YYYY-MM-DD"
+        },
+        "lat": {
+            "name": "North Latitude",
+            "shortname": "",
+            "description": "North Latitude",
+            "unit": "degree",
+            "datatype": "double",
+            "id": "719",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "lon": {
+            "name": "East Longitude",
+            "shortname": "",
+            "description": "East Longitude",
+            "unit": "degree",
+            "datatype": "double",
+            "id": "720",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "alt": {
+            "name": "Altitude",
+            "shortname": "length",
+            "description": "Altitude (meters above the sea level)",
+            "unit": "degree",
+            "datatype": "double",
+            "id": "721",
+            "optional": "True",
+            "value": "0.0"
+        }
+    },
+    "dimensions": {
+        "time": {
+            "symbol": "time"
+        },
+        "drop_class": {
+            "symbol": "drop_class"
+        }
+    },
+    "variables": {
+        "base_time": {
+            "name": "Base time",
+            "shortname": "dateTime_unix",
+            "description": "Base time in epoch: seconds since 1970-1-1 00:00:00",
+            "unit": "second",
+            "datatype": "integer",
+            "id": "692",
+            "optional": "True"
+        },
+        "time_offset": {
+            "name": "Time offset base_time",
+            "shortname": "duration",
+            "description": "Time offset from base_time: seconds from base time to each data record",
+            "unit": "second",
+            "datatype": "double",
+            "id": "693",
+            "optional": "True"
+        },
+        "time": {
+            "name": "Time offset from midnight",
+            "shortname": "duration",
+            "description": "Time offset from midnight GMT",
+            "unit": "second",
+            "datatype": "double",
+            "id": "694",
+            "optional": "True"
+        },
+        "mean_diam": {
+            "name": "Average diameter of drops",
+            "shortname": "length",
+            "description": "Average diameter of drops for every class  (raw)",
+            "unit": "milimeter",
+            "datatype": "double",
+            "id": "707",
+            "optional": "True"
+        },
+        "velocity": {
+            "name": "Fall velocity of drop",
+            "shortname": "velocity",
+            "description": "Fall velocity of drop with diameter D  (raw)",
+            "unit": "meter per second",
+            "datatype": "double",
+            "id": "710",
+            "optional": "True"
+        },
+        "diam_interval": {
+            "name": "Diameter interval",
+            "shortname": "velocity",
+            "description": "Diameter interval for every drop size class  (raw)",
+            "unit": "milimeter",
+            "datatype": "double",
+            "id": "711",
+            "optional": "True"
+        },
+        "n": {
+            "name": "Number of raindrops",
+            "shortname": "quantity",
+            "description": "Number of raindrops measured for each class during time interval T1 (raw)",
+            "unit": "none",
+            "datatype": "double",
+            "id": "706",
+            "optional": "True"
+        },
+        "d_max": {
+            "name": "Largest drop",
+            "shortname": "length",
+            "description": "Largest drop registered during to sample interval  (raw)",
+            "unit": "milimeter",
+            "datatype": "double",
+            "id": "708",
+            "optional": "True"
+        },
+        "n_d": {
+            "name": "Number density of drops of the diameter",
+            "shortname": "",
+            "description": "Number density of drops of the diameter corresponding to every size class per unit volume (raw)",
+            "unit": "per cubic millimeter and meter",
+            "datatype": "double",
+            "id": "708",
+            "optional": "True"
+        },
+        "ri": {
+            "name": "Rain Rate",
+            "shortname": "rainfall",
+            "description": "Rain intensity  (raw)",
+            "unit": "milimeter per hour",
+            "datatype": "double",
+            "id": "713",
+            "optional": "True"
+        },
+        "zdb": {
+            "name": "Radar reflectivity factor",
+            "shortname": "",
+            "description": "Radar reflectivity factor  (raw)",
+            "unit": "decibel",
+            "datatype": "decimal",
+            "id": "714",
+            "optional": "True"
+        },
+        "lwc": {
+            "name": "Liquid Water Content",
+            "shortname": "",
+            "description": "Liquid water content (raw)",
+            "unit": "gram per cubic meter",
+            "datatype": "double",
+            "id": "715",
+            "optional": "True"
+        },
+        "ef": {
+            "name": "Energy flux",
+            "shortname": "ratioEnArea",
+            "description": "Energy flux (raw)",
+            "unit": "joule per square meter",
+            "datatype": "double",
+            "id": "716",
+            "optional": "True"
+        },
+        "slope": {
+            "name": "Slope",
+            "shortname": "",
+            "description": "Slope  (raw)",
+            "unit": "per millimeter",
+            "datatype": "double",
+            "id": "716",
+            "optional": "True"
+        },
+        "n_0": {
+            "name": "Number concentration",
+            "shortname": "",
+            "description": "Number concentration  (raw)",
+            "unit": "per cubic millimeter and meter",
+            "datatype": "double",
+            "id": "716",
+            "optional": "True"
+        }
+    }
+}

@@ -1,0 +1,32 @@
+Exemplos de comandos e execução
+
+Gen netCDF
+
+> Executar o script para todos os arquivos .trf incluídos no caminho input/JOSS/data. Gerar um netCDF para cada dia que possuir dados.
+	python JOSS_gen_netCDF.py -s
+
+> Executar o script para todos os arquivos incluídos .trf no caminho input/JOSS/data. Gerar um netCDF apenas com os dados da data especificada no comando
+	python JOSS_gen_netCDF.py -s -d 31/01/2000
+	
+> Executar o script para todos os arquivos cujos nomes estão incluídos no arquivo files.txt que se encontra no caminho input/JOSS. Gerar um netCDF para cada dia que possuir dados.
+	python JOSS_gen_netCDF.py -l
+	
+> Executar o script para todos os arquivos cujos nomes estão incluídos no arquivo files.txt que se encontra no caminho input/JOSS. Gerar um netCDF apenas com os dados da data especificada no comando
+	python JOSS_gen_netCDF.py -l -d 31/01/2000
+
+Gen figures
+
+- Executar o script para todos os arquivos netCDF (.nc) incluídos no caminho input/JOSS/data_figures. Gera todas as figuras png e html para os arquivos incluídos na pasta.
+	python JOSS_gen_figures.py -s
+
+
+- Executar o script para todos os arquivos netCDF (.nc) incluídos no caminho input/JOSS/data_figures. Gera todas as figuras apenas no formato png para os arquivos incluídos na pasta.
+	python JOSS_gen_figures.py -s -p
+
+- Executar o script para todos os arquivos cujos nomes estão incluídos no arquivo files_figures.txt que se encontra no caminho input/JOSS. Gera todas as figuras para os arquivos incluídos no arquivo.
+	python JOSS_gen_figures.py -l
+	
+- Executar o script para todos os arquivos cujos nomes estão incluídos no arquivo files_figures.txt que se encontra no caminho input/JOSS. Gera todas as figuras apenas no formato png para os arquivos incluídos no arquivo.
+	python JOSS_gen_figures.py -l -p
+
+
