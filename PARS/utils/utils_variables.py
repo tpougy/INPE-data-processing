@@ -38,8 +38,10 @@ def parse_erro(x):
     return int(x)
 
 
-def parse_vol_p_diam(x):
-    return [
+def parse_vpd(x, mask):
+    vpd = [
         [int(y) for y in x[i : i + (32 * 4)].split(";")[:-1]]
         for i in range(0, len(x), (32 * 4))
     ]
+
+    return [[i * j for i, j in zip(vpd_l, mask_l)] for vpd_l, mask_l in zip(vpd, mask)]
