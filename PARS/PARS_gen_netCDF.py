@@ -17,43 +17,15 @@ path_input_support = path_input.joinpath("support")
 path_output = path_cwd.joinpath("output", "PARS")
 path_output_data = path_output.joinpath("netCDF")
 
+# reading auxiliar data
+with open(path_input_support.joinpath("variables_info.json"), "r") as xfile:
+    variables_info_file = xfile.read()
+variables_info = json.loads(variables_info_file)
+
 # files
 
 # for each file
-variable_comp = []
-missing_comp = []
-for block_idx, block in enumerate(blocks):
-    variables = []
-    var_missing = []
-    aux = [item[0] for item in block]
-    for var in interest_variables:
-        if var in aux:
-            idx = aux.index(var)
-            if var == 1:
-                variables += [utils.parse_ri(block[idx][1])]
-            elif var == 7:
-                variables += [utils.parse_z(block[idx][1])]
-            elif var == 9:
-                variables += [utils.parse_sample_interval(block[idx][1])]
-            elif var == 13:
-                utils.parse_serial(block[idx][1])
-            elif var == 20:
-                time_aux = block[idx][1]
-            elif var == 21:
-                date_aux = block[idx][1]
-                variables += [utils.parse_datetime(f"{date_aux} {time_aux}")]
-            elif var == 25:
-                variables += [utils.parse_erro(block[idx][1])]
-            elif var == 93:
-                variables += [utils.parse_vol_p_diam(block[idx][1])]
-        else:
-            variables += [np.NaN]
-            var_missing += [var]
-
-    if var_missing:
-        missing_comp += [(block_idx, var_missing)]
-
-    variable_comp.append(variables)
+utils.process_files(files, export_date, variables_info)
 
 
 # get variables
