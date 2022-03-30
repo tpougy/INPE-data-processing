@@ -11,6 +11,7 @@ def process_files(files, export_date, variables_info):
     # importante para o loop de parse das variaveis varrer o ultimo bloco
     init_positions = find_sub_list(init_mask, idx_lines) + [len(lines)]
 
+    # only for support que numbers are not used for anything
     var_interest = [1, 7, 9, 13, 20 + 21, 25, 93]
     var_essential = [9, 20 + 21, 25, 93]
 
@@ -67,8 +68,23 @@ def process_files(files, export_date, variables_info):
         else:
             var_comp.append(var_iteration)
 
-        return pd.DataFrame.from_records(
+        all_data = pd.DataFrame.from_records(
             var_comp,
             columns=["ri", "z", "sample_interval", "serial", "datetime", "erro", "vpd"],
             index="datetime",
         )
+
+        datei = datetime(export_date.year, export_date.month, export_date.day, 0, 0)
+        datef = datetime(export_date.year, export_date.month, export_date.day, 23, 59)
+
+        day_idx = pd.date_range(
+            start=start_date,
+            end=end_date,
+            freq=str(variables_info["integration_time"]) + "S",
+        )
+
+        day_data = all_data.loc[datei:datef]
+
+        day_data = day_data.reindex(day_idx, fill_value=variables_info["missing_value"])
+
+        return day_data, export_date + timedelta(days=1)
