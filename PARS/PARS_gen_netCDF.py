@@ -1,3 +1,10 @@
+import argparse
+import pathlib
+import json
+import os
+
+import utils
+
 # ##################### ARGUMENTS ######################
 
 # Create the parser
@@ -53,16 +60,16 @@ if args.standard is not None and args.list is not None:
 
 
 # Folders and files path
-path_cwd = pathlib.Path.cwd()
+path_cwd = pathlib.Path.cwd().joinpath("PARS")
 
 print(path_cwd.name)
 
-if path_cwd.name != "PARS":
-    print(
-        "ERRO. Please make sure python current working directory is the /PARS folder which contains this script"
-    )
-    print("ERRO. Current working directory is:", path_cwd)
-    quit()
+# if path_cwd.name != "PARS":
+#     print(
+#         "ERRO. Please make sure python current working directory is the /PARS folder which contains this script"
+#     )
+#     print("ERRO. Current working directory is:", path_cwd)
+#     quit()
 
 path_input = path_cwd.joinpath("input", "PARS")
 path_input_data = path_input.joinpath("data")
@@ -77,7 +84,7 @@ with open(path_input_support.joinpath("variables_info.json"), "r") as xfile:
 variables_info = json.loads(variables_info_file)
 
 # files
-EXT = ".trf"
+EXT = ""
 if args.standard:
     print("Executing script in standard mode")
     print("")
@@ -95,8 +102,8 @@ elif args.list:
     files = [path_input_data.joinpath(file) for file in files]
 
 # for each file
-for file in files:
-    day_data, export_date, flag_date = utils.process_files(
+while True:
+    day_data, export_date, flag_date = utils.parse_files(
         files, export_date, variables_info
     )
 
@@ -114,15 +121,16 @@ for file in files:
             + ".nc"
         )
 
-        utils.generate_netCDF(
-            cdf_filename,
-            day_data,
-            columns,
-            variables_info,
-            netCDF_info,
-            path_input,
-            path_output_data,
-        )
+        # utils.generate_netCDF(
+        #     cdf_filename,
+        #     day_data,
+        #     columns,
+        #     variables_info,
+        #     netCDF_info,
+        #     path_input,
+        #     path_output_data,
+        # )
+
         print("")
 
         if args.date:
