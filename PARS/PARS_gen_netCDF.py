@@ -3,6 +3,10 @@ import pathlib
 import json
 import os
 
+from datetime import datetime
+
+import numpy as np
+
 import utils
 
 # ##################### ARGUMENTS ######################
@@ -108,7 +112,10 @@ while True:
     )
 
     if flag_date:
+        print("fim")
         break
+    else:
+        print("continua")
 
     if day_data.shape[0] != 0:
 
