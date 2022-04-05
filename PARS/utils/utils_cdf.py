@@ -444,6 +444,4 @@ def generate_netCDF(
         )
     ).astype("float64")
 
-    print("netCDF created")
-
     PARS_CDF.close()

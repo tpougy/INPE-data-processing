@@ -137,6 +137,7 @@ while True:
             path_output_data,
         )
 
+        print("netCDF created")
         print("")
 
         if args.date:
