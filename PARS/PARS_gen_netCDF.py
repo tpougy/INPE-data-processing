@@ -3,6 +3,10 @@ import pathlib
 import json
 import os
 
+from datetime import datetime
+
+import numpy as np
+
 import utils
 
 # ##################### ARGUMENTS ######################
@@ -108,28 +112,30 @@ while True:
     )
 
     if flag_date:
+        print("fim")
         break
+    else:
+        print("continua")
 
     if day_data.shape[0] != 0:
 
         cdf_filename = (
             "att"
-            + "impactdisd"
+            + "laserdisd"
             + "cam."
             + "b0."
             + day_data.index[0].strftime("%Y%m%d.%H%M%S")
             + ".nc"
         )
 
-        # utils.generate_netCDF(
-        #     cdf_filename,
-        #     day_data,
-        #     columns,
-        #     variables_info,
-        #     netCDF_info,
-        #     path_input,
-        #     path_output_data,
-        # )
+        utils.generate_netCDF(
+            cdf_filename,
+            day_data,
+            variables_info,
+            netCDF_info,
+            path_input,
+            path_output_data,
+        )
 
         print("")
 

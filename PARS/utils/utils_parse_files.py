@@ -100,16 +100,8 @@ def parse_files(files, export_date, variables_info):
     datei = datetime(export_date.year, export_date.month, export_date.day, 0, 0)
     datef = datetime(export_date.year, export_date.month, export_date.day, 23, 59)
 
-    # day_idx = pd.date_range(
-    #     start=datei,
-    #     end=datef,
-    #     freq=str(variables_info["integration_time"]) + "S",
-    # )
-
     mask = (all_data.index > datei) & (all_data.index <= datef)
 
     day_data = all_data.loc[mask]
-
-    # day_data = day_data.reindex(day_idx, fill_value=variables_info["missing_value"])
 
     return day_data, export_date + timedelta(days=1), export_date > all_data.index[-1]

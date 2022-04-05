@@ -1,0 +1,254 @@
+{
+    "global": {
+        "data_description": {
+            "name": "Data Description",
+            "shortname": "description",
+            "description": "General description of the data",
+            "unit": "none",
+            "datatype": "string",
+            "id": "668",
+            "optional": "True",
+            "value": "xyz xyz xyz"
+        },
+        "site_identifier": {
+            "name": "Site identifier",
+            "shortname": "id_int",
+            "description": "Site-id: identifies the sites name",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "669",
+            "optional": "True",
+            "value": "0"
+        },
+        "platform_identifier": {
+            "name": "Platform identifier",
+            "shortname": "id_int",
+            "description": "Platform-id: identifies the instrument",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "670",
+            "optional": "True",
+            "value": "0"
+        },
+        "facility_identifier": {
+            "name": "Facility identifier",
+            "shortname": "id_int",
+            "description": "Facility-id: identifies where the instrument is installed",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "671",
+            "optional": "True",
+            "value": "0"
+        },
+        "data_level": {
+            "name": "Data Level",
+            "shortname": "id_int",
+            "description": "Identifies the level of data processing (please, check the ATTO manual of the equipment)",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "672",
+            "optional": "True",
+            "value": "0"
+        },
+        "location": {
+            "name": "Location",
+            "shortname": "description",
+            "description": "Describes the place where the equipment is installed",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "673",
+            "optional": "True",
+            "value": "0"
+        },
+        "datastream": {
+            "name": "Datastream",
+            "shortname": "description",
+            "description": "Describes the applied datastream",
+            "unit": "none",
+            "datatype": "string",
+            "id": "674",
+            "optional": "True",
+            "value": "xyz"
+        },
+        "sampling_interval": {
+            "name": "Sampling Interval",
+            "shortname": "duration",
+            "description": "Measurement sampling interval",
+            "unit": "second",
+            "datatype": "double",
+            "id": "675",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "averaging_interval": {
+            "name": "Averaging Interval",
+            "shortname": "duration",
+            "description": "Averaging interval when applied",
+            "unit": "second",
+            "datatype": "double",
+            "id": "676",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "serial_number": {
+            "name": "Serial Number",
+            "shortname": "id_int",
+            "description": "Instrument serial number",
+            "unit": "none",
+            "datatype": "integer",
+            "id": "677",
+            "optional": "True",
+            "value": "0"
+        },
+        "calibration_date": {
+            "name": "Calibration date",
+            "shortname": "day",
+            "description": "Calibration date",
+            "unit": "date",
+            "datatype": "datetime",
+            "id": "678",
+            "optional": "True",
+            "value": "2021-01-01",
+            "value-format": "YYYY-MM-DD"
+        },
+        "lat": {
+            "name": "North Latitude",
+            "shortname": "",
+            "description": "North Latitude",
+            "unit": "degree",
+            "datatype": "double",
+            "id": "689",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "lon": {
+            "name": "East Longitude",
+            "shortname": "",
+            "description": "East Longitude",
+            "unit": "degree",
+            "datatype": "double",
+            "id": "690",
+            "optional": "True",
+            "value": "0.0"
+        },
+        "alt": {
+            "name": "Altitude",
+            "shortname": "Height offset ASL",
+            "description": "Altitude (meters above the sea level)",
+            "unit": "degree",
+            "datatype": "double",
+            "id": "691",
+            "optional": "True",
+            "value": "0.0"
+        }
+    },
+    "dimensions": {
+        "time": {
+            "symbol": "time"
+        },
+        "drop_class": {
+            "symbol": "drop_class"
+        }
+    },
+    "variables": {
+        "base_time": {
+            "name": "Base time",
+            "shortname": "dateTime_unix",
+            "description": "Base time in epoch: seconds since 1970-1-1 00:00:00",
+            "unit": "second",
+            "datatype": "integer",
+            "id": "665",
+            "optional": "True"
+        },
+        "time_offset": {
+            "name": "Time offset base_time",
+            "shortname": "duration",
+            "description": "Time offset from base_time: seconds from base time to each data record",
+            "unit": "second",
+            "datatype": "double",
+            "id": "666",
+            "optional": "True"
+        },
+        "time": {
+            "name": "Time offset from midnight",
+            "shortname": "duration",
+            "description": "Time offset from midnight GMT",
+            "unit": "second",
+            "datatype": "double",
+            "id": "667",
+            "optional": "True"
+        },
+        "mean_diam": {
+            "name": "Average diameter of drops",
+            "shortname": "length",
+            "description": "Average diameter of drops for every class  (raw)",
+            "unit": "milimeter",
+            "datatype": "double",
+            "id": "679",
+            "optional": "True"
+        },
+        "velocity": {
+            "name": "Fall velocity of drop",
+            "shortname": "velocity",
+            "description": "Fall velocity of drop with diameter D (raw)",
+            "unit": "meter per second",
+            "datatype": "double",
+            "id": "681",
+            "optional": "True"
+        },
+        "diam_interval": {
+            "name": "Diameter interval",
+            "shortname": "velocity",
+            "description": "Diameter interval for every drop size class (raw)",
+            "unit": "milimeter",
+            "datatype": "double",
+            "id": "680",
+            "optional": "True"
+        },
+        "sample_interval": {
+            "name": "Time interval of particle measurements",
+            "shortname": "duration",
+            "description": "Time interval of particle measurements",
+            "unit": "second",
+            "datatype": "double",
+            "id": "682",
+            "optional": "True"
+        },
+        "ri": {
+            "name": "Rain Rate",
+            "shortname": "rainfall",
+            "description": "Rain intensity by Ott software",
+            "unit": "milimeter per hour",
+            "datatype": "double",
+            "id": "683",
+            "optional": "True"
+        },
+        "zdb": {
+            "name": "Radar reflectivity factor",
+            "shortname": "",
+            "description": "Radar reflectivity factor by Ott software",
+            "unit": "decibel",
+            "datatype": "decimal",
+            "id": "685",
+            "optional": "True"
+        },
+        "psd": {
+            "name": "Raw particle size distribution",
+            "shortname": "quantity",
+            "description": "Raw data; Volume equivalent diamenter; Matrix (32x32) with the number of possible particles (32) versus fall velocities (32)",
+            "unit": "none",
+            "datatype": "double",
+            "id": "686",
+            "optional": "True"
+        },
+        "error": {
+            "name": "Error code",
+            "shortname": "technicalError",
+            "description": "Lases sensor error code (0: OK, 1-3: pleaser check the manual)",
+            "unit": "none",
+            "datatype": "bool",
+            "id": "687",
+            "optional": "True"
+        }
+    }
+}
