@@ -328,7 +328,6 @@ def generate_netCDF(
 
     velocity[:] = variables_info["velocity"]
 
-    #  @@@  CORRIGIR
     # @@ Variable: diam_interval
     diam_interval = PARS_CDF.createVariable(
         netCDF_info["variables"]["diam_interval"]["name"],
