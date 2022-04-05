@@ -40,6 +40,13 @@ PARS_parser.add_argument(
     default=None,
     help="Executes the script for files listed in the files.txt file specified ate input/PARS folder and exit. The file.txt must have only the file name (without path) of the files in each line.",
 )
+PARS_parser.add_argument(
+    "-f",
+    "--filter",
+    action="store_true",
+    default=None,
+    help="Indica se vai aplicar filtro",
+)
 
 # Execute the parse_args() method
 args = PARS_parser.parse_args()
@@ -86,6 +93,13 @@ path_output_data = path_output.joinpath("netCDF")
 with open(path_input_support.joinpath("variables_info.json"), "r") as xfile:
     variables_info_file = xfile.read()
 variables_info = json.loads(variables_info_file)
+
+if args.filter:
+    # ler os arquivos dentro da pasta PARS_filters
+    # trocar as informções padrão pelos dados lidos e também inserir a matriz de filtro
+    # variables_info["tokay_filter"] = matriz_lida
+    pass
+
 
 # files
 EXT = ""

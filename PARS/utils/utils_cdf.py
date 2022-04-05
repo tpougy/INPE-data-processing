@@ -27,7 +27,7 @@ def generate_netCDF(
     # ######################## DIMENSIONS ##########################
 
     drop_class = PARS_CDF.createDimension(
-        netCDF_info["dimensions"]["drop_class"]["symbol"], 20
+        netCDF_info["dimensions"]["drop_class"]["symbol"], 32
     )
 
     time = PARS_CDF.createDimension(
