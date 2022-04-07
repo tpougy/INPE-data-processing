@@ -4,6 +4,7 @@ import numpy as np
 from netCDF4 import Dataset
 
 from .utils_encode import string2ascii_array
+from .utils_calc_var import *
 
 
 def generate_netCDF(
@@ -26,15 +27,21 @@ def generate_netCDF(
 
     # ######################## DIMENSIONS ##########################
 
+    # value defined as 32 in the json file
     drop_class = PARS_CDF.createDimension(
-        netCDF_info["dimensions"]["drop_class"]["symbol"], 32
+        netCDF_info["dimensions"]["drop_class"]["symbol"],
+        netCDF_info["dimensions"]["drop_class"]["value"],
     )
 
     time = PARS_CDF.createDimension(
         netCDF_info["dimensions"]["time"]["symbol"], day_data.shape[0]
     )
 
-    str_dim = PARS_CDF.createDimension("str_dim", 255)
+    # value defined as 255 in the json file
+    str_dim = PARS_CDF.createDimension(
+        netCDF_info["dimensions"]["str_dim"]["symbol"],
+        netCDF_info["dimensions"]["str_dim"]["value"],
+    )
 
     # ######################## GLOBAL VARIABLES ###########################
 
@@ -296,7 +303,7 @@ def generate_netCDF(
 
     # ######################## DATA VARIABLES ###########################
 
-    # @@ Variable: mean_diam
+    # $$ Variable: mean_diam
     mean_diam = PARS_CDF.createVariable(
         netCDF_info["variables"]["mean_diam"]["name"],
         "f8",
@@ -310,9 +317,9 @@ def generate_netCDF(
     mean_diam.id = netCDF_info["variables"]["mean_diam"]["id"]
     mean_diam.optional = netCDF_info["variables"]["mean_diam"]["optional"]
 
-    mean_diam[:] = variables_info["mean_diam"]
+    mean_diam[:] = variables_info["drop_class_param"]["mean_diam"]
 
-    # @@ Variable: velocity
+    # Variable: velocity
     velocity = PARS_CDF.createVariable(
         netCDF_info["variables"]["velocity"]["name"],
         "f8",
@@ -326,9 +333,9 @@ def generate_netCDF(
     velocity.id = netCDF_info["variables"]["velocity"]["id"]
     velocity.optional = netCDF_info["variables"]["velocity"]["optional"]
 
-    velocity[:] = variables_info["velocity"]
+    velocity[:] = variables_info["drop_class_param"]["vel_diam"]
 
-    # @@ Variable: diam_interval
+    # Variable: diam_interval
     diam_interval = PARS_CDF.createVariable(
         netCDF_info["variables"]["diam_interval"]["name"],
         "f8",
@@ -342,7 +349,7 @@ def generate_netCDF(
     diam_interval.id = netCDF_info["variables"]["diam_interval"]["id"]
     diam_interval.optional = netCDF_info["variables"]["diam_interval"]["optional"]
 
-    diam_interval[:] = variables_info["delta_diam"]
+    diam_interval[:] = variables_info["drop_class_param"]["delta_diam"]
 
     # @@ Variable: ri
     ri = PARS_CDF.createVariable(

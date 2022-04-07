@@ -1,4 +1,5 @@
 {
+    "missing_value": -999.99,
     "global": {
         "data_description": {
             "name": "Data Description",
@@ -147,7 +148,12 @@
             "symbol": "time"
         },
         "drop_class": {
-            "symbol": "drop_class"
+            "symbol": "drop_class",
+            "value": 32
+        },
+        "str_dim": {
+            "symbol": "str_dim",
+            "value": 255
         }
     },
     "variables": {

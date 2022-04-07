@@ -8,8 +8,7 @@ from netCDF4 import Dataset
 from netCDF4 import stringtochar
 
 
-def process_files(files, columns, export_date, variables_info):
-
+def read_files(files, columns):
     joss_date_parser = lambda x: datetime.strptime(x, "%Y-%m-%d %H:%M:%S")
 
     # data is a list of dataframes containg the data from each file
@@ -32,6 +31,11 @@ def process_files(files, columns, export_date, variables_info):
 
     # all data receives the data from all files
     all_data = pd.concat(data).sort_index()
+
+    return all_data
+
+
+def get_day_data(all_data, export_date, variables_info):
 
     aux_datetime = all_data.index[-1]
 

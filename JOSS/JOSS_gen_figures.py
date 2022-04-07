@@ -59,7 +59,7 @@ if args.standard is not None and args.list is not None:
 # ##################### SCRIPT #####################
 
 # Folders and files path
-path_cwd = pathlib.Path.cwd()
+path_cwd = pathlib.Path.cwd().joinpath("JOSS")
 
 if path_cwd.name != "JOSS":
     print(

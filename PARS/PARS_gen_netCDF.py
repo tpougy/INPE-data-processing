@@ -30,21 +30,21 @@ PARS_parser.add_argument(
     "-s",
     "--standard",
     action="store_true",
-    default=None,
+    default=False,
     help="Executes the script for all .trf files inside the data input folder and exit",
 )
 PARS_parser.add_argument(
     "-l",
     "--list",
     action="store_true",
-    default=None,
+    default=False,
     help="Executes the script for files listed in the files.txt file specified ate input/PARS folder and exit. The file.txt must have only the file name (without path) of the files in each line.",
 )
 PARS_parser.add_argument(
     "-f",
     "--filter",
     action="store_true",
-    default=None,
+    default=False,
     help="Indica se vai aplicar filtro",
 )
 
@@ -57,7 +57,7 @@ if not args.date:
 else:
     try:
         export_date = datetime.strptime(args.date, "%d/%m/%Y")
-    except:
+    except Exception:
         PARS_parser.error("Bad date format, see --help to further information")
 
 # check if there is at least one action requested
@@ -85,6 +85,7 @@ print(path_cwd.name)
 path_input = path_cwd.joinpath("input", "PARS")
 path_input_data = path_input.joinpath("data")
 path_input_support = path_input.joinpath("support")
+path_input_drop_class_param = path_input_support.joinpath("drop_class_parameters")
 
 path_output = path_cwd.joinpath("output", "PARS")
 path_output_data = path_output.joinpath("netCDF")
@@ -95,10 +96,20 @@ with open(path_input_support.joinpath("variables_info.json"), "r") as xfile:
 variables_info = json.loads(variables_info_file)
 
 if args.filter:
-    # ler os arquivos dentro da pasta PARS_filters
-    # trocar as informções padrão pelos dados lidos e também inserir a matriz de filtro
-    # variables_info["tokay_filter"] = matriz_lida
-    pass
+    # tokay filter
+    variables_info["drop_class_param"]["tokay_filter"] = np.loadtxt(
+        path_input_drop_class_param.joinpath("parsivel_matrix.txt"), dtype=float
+    ).tolist()
+
+    # mean_diam, delta_diam, vel_diam
+    pars_diam_file_values = np.loadtxt(
+        path_input_drop_class_param.joinpath("parsivel_diameter.txt"), dtype=float
+    )
+
+    for name, col in variables_info["pars_diam_file_columns"].items():
+        variables_info["drop_class_param"][name] = pars_diam_file_values[
+            :, col
+        ].tolist()
 
 
 # files
@@ -119,10 +130,13 @@ elif args.list:
         files = files.reshape(1)
     files = [path_input_data.joinpath(file) for file in files]
 
-# for each file
+
+# chama a funçao que le os dados de todos os arquivos
+all_data = utils.parse_files(files, variables_info)
+
 while True:
-    day_data, export_date, flag_date = utils.parse_files(
-        files, export_date, variables_info
+    day_data, export_date, flag_date = utils.get_day_data(
+        all_data, export_date, variables_info
     )
 
     if flag_date:

@@ -50,7 +50,7 @@ if not args.date:
 else:
     try:
         export_date = datetime.strptime(args.date, "%d/%m/%Y")
-    except:
+    except Exception:
         JOSS_parser.error("Bad date format, see --help to further information")
 
 # check if there is at least one action requested
@@ -63,7 +63,7 @@ if args.standard is not None and args.list is not None:
 # ##################### SCRIPT #####################
 
 # Folders and files path
-path_cwd = pathlib.Path.cwd()
+path_cwd = pathlib.Path.cwd().joinpath("JOSS")
 
 print(path_cwd.name)
 
@@ -93,7 +93,7 @@ netCDF_info = json.loads(netCDF_info_file)
 columns = list(np.loadtxt(path_input_support.joinpath("variables.txt"), dtype=str))
 
 # reading all file names in folder or list
-EXT = ".trf"
+EXT = variables_info["input_file_extension"]
 if args.standard:
     print("Executing script in standard mode")
     print("")
@@ -109,12 +109,17 @@ elif args.list:
     if len(files.shape) == 0:
         files = files.reshape(1)
     files = [path_input_data.joinpath(file) for file in files]
+    # adicionar check se o arquivo existe
+
+
+# chama a funçao que le os dados de todos os arquivos
+all_data = utils.read_files(files, columns)
 
 # data processing
 while True:
-    # # chama a funçao que le os dados
-    (export_date, day_data, flag) = utils.process_files(
-        files, columns, export_date, variables_info
+
+    (export_date, day_data, flag) = utils.get_day_data(
+        all_data, export_date, variables_info
     )
 
     if flag:

@@ -1,11 +1,11 @@
 from .utils_files import *
-from .utils_variables import *
+from .utils_parse_var import *
 
 import pandas as pd
 from datetime import timedelta
 
 
-def parse_files(files, export_date, variables_info):
+def parse_files(files, variables_info):
 
     # only for support, numbers are not used for anything
     var_essential = [9, 20 + 21, 25, 93]
@@ -92,7 +92,10 @@ def parse_files(files, export_date, variables_info):
                 )
             )
 
-    all_data = pd.concat(files_data)
+    return pd.concat(files_data)
+
+
+def gte_day_data(all_data, export_date):
 
     if export_date is None:
         export_date = all_data.index[0]

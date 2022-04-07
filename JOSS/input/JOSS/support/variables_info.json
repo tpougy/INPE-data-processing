@@ -1,4 +1,5 @@
 {
+    "input_file_extension": ".trf",
     "missing_value": -999.99,
     "integration_time": 60,
     "drop_size": [
