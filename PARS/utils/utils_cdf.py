@@ -2,6 +2,7 @@ import os
 
 import numpy as np
 from netCDF4 import Dataset
+from datetime import datetime
 
 from .utils_encode import string2ascii_array
 from .utils_calc_var import *
@@ -303,7 +304,7 @@ def generate_netCDF(
 
     # ######################## DATA VARIABLES ###########################
 
-    # $$ Variable: mean_diam
+    # Variable: mean_diam
     mean_diam = PARS_CDF.createVariable(
         netCDF_info["variables"]["mean_diam"]["name"],
         "f8",
@@ -351,7 +352,7 @@ def generate_netCDF(
 
     diam_interval[:] = variables_info["drop_class_param"]["delta_diam"]
 
-    # @@ Variable: ri
+    # Variable: ri
     ri = PARS_CDF.createVariable(
         netCDF_info["variables"]["ri"]["name"],
         "f8",
@@ -366,42 +367,38 @@ def generate_netCDF(
     ri.optional = netCDF_info["variables"]["ri"]["optional"]
 
     ri[:] = np.array(
-        get_ri(
-            day_data[variables_info["drop_size"]],
-            variables_info["drop_size"],
-            variables_info["mean_diam"],
-            variables_info["velocity"],
-            variables_info["integration_time"],
+        calc_ri(
+            day_data[["sample_interval", "vpd"]],
+            variables_info["drop_class_param"]["mean_diam"],
+            variables_info["drop_class_param"]["vel_diam"],
+            variables_info["drop_class_param"]["delta_diam"],
         )
     ).astype("float64")
 
-    # @@ Variable: zdb
-    zdb = PARS_CDF.createVariable(
-        netCDF_info["variables"]["zdb"]["name"],
+    # Variable: z
+    z = PARS_CDF.createVariable(
+        netCDF_info["variables"]["z"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    zdb.shortname = netCDF_info["variables"]["zdb"]["shortname"]
-    zdb.description = netCDF_info["variables"]["zdb"]["description"]
-    zdb.unit = netCDF_info["variables"]["zdb"]["unit"]
-    zdb.datatype = netCDF_info["variables"]["zdb"]["datatype"]
-    zdb.id = netCDF_info["variables"]["zdb"]["id"]
-    zdb.optional = netCDF_info["variables"]["zdb"]["optional"]
+    z.shortname = netCDF_info["variables"]["z"]["shortname"]
+    z.description = netCDF_info["variables"]["z"]["description"]
+    z.unit = netCDF_info["variables"]["z"]["unit"]
+    z.datatype = netCDF_info["variables"]["z"]["datatype"]
+    z.id = netCDF_info["variables"]["z"]["id"]
+    z.optional = netCDF_info["variables"]["z"]["optional"]
 
-    zdb[:] = np.array(
-        get_zdb(
-            get_z(
-                day_data[variables_info["drop_size"]],
-                variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
-                variables_info["integration_time"],
-            )
+    z[:] = np.array(
+        calc_z(
+            day_data[["sample_interval", "vpd"]],
+            variables_info["drop_class_param"]["mean_diam"],
+            variables_info["drop_class_param"]["vel_diam"],
+            variables_info["drop_class_param"]["delta_diam"],
         )
     ).astype("float64")
 
-    # @@ Variable: lwc
+    # Variable: lwc
     lwc = PARS_CDF.createVariable(
         netCDF_info["variables"]["lwc"]["name"],
         "f8",
@@ -416,39 +413,47 @@ def generate_netCDF(
     lwc.optional = netCDF_info["variables"]["lwc"]["optional"]
 
     lwc[:] = np.array(
-        get_lwc(
-            day_data[variables_info["drop_size"]],
-            variables_info["drop_size"],
-            variables_info["mean_diam"],
-            variables_info["velocity"],
-            variables_info["integration_time"],
+        calc_lwc(
+            day_data[["sample_interval", "vpd"]],
+            variables_info["drop_class_param"]["mean_diam"],
+            variables_info["drop_class_param"]["vel_diam"],
+            variables_info["drop_class_param"]["delta_diam"],
         )
     ).astype("float64")
 
-    # @@ Variable: ef
-    ef = PARS_CDF.createVariable(
-        netCDF_info["variables"]["ef"]["name"],
+    # Variable: error
+    error = PARS_CDF.createVariable(
+        netCDF_info["variables"]["error"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    ef.shortname = netCDF_info["variables"]["ef"]["shortname"]
-    ef.description = netCDF_info["variables"]["ef"]["description"]
-    ef.unit = netCDF_info["variables"]["ef"]["unit"]
-    ef.datatype = netCDF_info["variables"]["ef"]["datatype"]
-    ef.id = netCDF_info["variables"]["ef"]["id"]
-    ef.optional = netCDF_info["variables"]["ef"]["optional"]
+    error.shortname = netCDF_info["variables"]["error"]["shortname"]
+    error.description = netCDF_info["variables"]["error"]["description"]
+    error.unit = netCDF_info["variables"]["error"]["unit"]
+    error.datatype = netCDF_info["variables"]["error"]["datatype"]
+    error.id = netCDF_info["variables"]["error"]["id"]
+    error.optional = netCDF_info["variables"]["error"]["optional"]
 
-    ef[:] = np.array(
-        get_ef(
-            get_ek(
-                day_data[variables_info["drop_size"]],
-                variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
-            ),
-            variables_info["integration_time"],
-        )
-    ).astype("float64")
+    error[:] = day_data["error"].to_numpy().astype("float64")
+
+    # @@ Variable: psd
+    # precisa pensar no formato da variável!!! Não consigo salvar uma matriz por posição do array no netCDF
+    # talvez usar o formato bytes, mas teria problema com o tamanho do conjunto de bytes que é variável
+
+    # psd = PARS_CDF.createVariable(
+    #     netCDF_info["variables"]["psd"]["name"],
+    #     "f8",
+    #     (netCDF_info["dimensions"]["time"]["symbol"],),
+    # )
+
+    # psd.shortname = netCDF_info["variables"]["psd"]["shortname"]
+    # psd.description = netCDF_info["variables"]["psd"]["description"]
+    # psd.unit = netCDF_info["variables"]["psd"]["unit"]
+    # psd.datatype = netCDF_info["variables"]["psd"]["datatype"]
+    # psd.id = netCDF_info["variables"]["psd"]["id"]
+    # psd.optional = netCDF_info["variables"]["psd"]["optional"]
+
+    # psd[:] = day_data["vpd"].values
 
     PARS_CDF.close()

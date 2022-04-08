@@ -60,20 +60,23 @@ def parse_files(files, variables_info):
                 #### essential variable ####
                 elif lines[i]["idx"] == 93:
                     var_iteration[6] = parse_vpd(
-                        lines[i]["value"], variables_info["vpd_mask"]
+                        lines[i]["value"],
+                        variables_info["drop_class_param"]["tokay_filter"],
                     )
 
                 i += 1
 
             # Check if any essential variable is None in the block
-            if None in [
-                var_iteration[2],
-                var_iteration[4],
-                var_iteration[5],
-                var_iteration[6],
-            ]:
-                var_comp.append([None for _ in var_interest])
-            else:
+            if not (
+                None
+                in [
+                    var_iteration[2],
+                    var_iteration[4],
+                    var_iteration[5],
+                    var_iteration[6],
+                ]
+                or len(var_iteration[6]) != 32
+            ):
                 var_comp.append(var_iteration)
 
             files_data.append(
@@ -85,7 +88,7 @@ def parse_files(files, variables_info):
                         "sample_interval",
                         "serial",
                         "datetime",
-                        "erro",
+                        "error",
                         "vpd",
                     ],
                     index="datetime",
@@ -95,7 +98,7 @@ def parse_files(files, variables_info):
     return pd.concat(files_data)
 
 
-def gte_day_data(all_data, export_date):
+def get_day_data(all_data, export_date):
 
     if export_date is None:
         export_date = all_data.index[0]
@@ -107,4 +110,4 @@ def gte_day_data(all_data, export_date):
 
     day_data = all_data.loc[mask]
 
-    return day_data, export_date + timedelta(days=1), export_date > all_data.index[-1]
+    return day_data, export_date + timedelta(days=1)

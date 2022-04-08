@@ -38,14 +38,13 @@ def parse_erro(x):
     return int(x)
 
 
-def parse_vpd(x, mask, flag):
+def parse_vpd(x, mask):
     vpd = [
         [int(y) for y in x[i : i + (32 * 4)].split(";")[:-1]]
         for i in range(0, len(x), (32 * 4))
     ]
-    if flag:
-        return [
-            [i * j for i, j in zip(vpd_l, mask_l)] for vpd_l, mask_l in zip(vpd, mask)
-        ]
-    else:
-        return vpd
+    return (
+        [[i * j for i, j in zip(vpd_l, mask_l)] for vpd_l, mask_l in zip(vpd, mask)]
+        if mask
+        else vpd
+    )

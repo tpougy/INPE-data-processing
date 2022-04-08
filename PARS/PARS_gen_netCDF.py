@@ -61,10 +61,10 @@ else:
         PARS_parser.error("Bad date format, see --help to further information")
 
 # check if there is at least one action requested
-if args.standard is None and args.list is None:
+if args.standard is False and args.list is False:
     PARS_parser.error("No action requested, see --help to further information")
 
-if args.standard is not None and args.list is not None:
+if args.standard is not False and args.list is not False:
     PARS_parser.error("Invalid action requested, see --help to further information")
 
 # ##################### SCRIPT #####################
@@ -72,8 +72,6 @@ if args.standard is not None and args.list is not None:
 
 # Folders and files path
 path_cwd = pathlib.Path.cwd().joinpath("PARS")
-
-print(path_cwd.name)
 
 # if path_cwd.name != "PARS":
 #     print(
@@ -94,6 +92,10 @@ path_output_data = path_output.joinpath("netCDF")
 with open(path_input_support.joinpath("variables_info.json"), "r") as xfile:
     variables_info_file = xfile.read()
 variables_info = json.loads(variables_info_file)
+
+with open(path_input_support.joinpath("netCDF_info.json"), "r") as xfile:
+    netCDF_info_file = xfile.read()
+netCDF_info = json.loads(netCDF_info_file)
 
 if args.filter:
     # tokay filter
@@ -135,15 +137,7 @@ elif args.list:
 all_data = utils.parse_files(files, variables_info)
 
 while True:
-    day_data, export_date, flag_date = utils.get_day_data(
-        all_data, export_date, variables_info
-    )
-
-    if flag_date:
-        print("fim")
-        break
-    else:
-        print("continua")
+    day_data, export_date = utils.get_day_data(all_data, export_date)
 
     if day_data.shape[0] != 0:
 
@@ -168,8 +162,9 @@ while True:
         print("netCDF created")
         print("")
 
-        if args.date:
+        if args.date or export_date > all_data.index[-1]:
             break
 
+print("Execution finished")
 
 # get variables

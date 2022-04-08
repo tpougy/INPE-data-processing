@@ -229,7 +229,16 @@
             "id": "683",
             "optional": "True"
         },
-        "zdb": {
+        "lwc": {
+            "name": "Liquid Water Content",
+            "shortname": "",
+            "description": "Liquid water content (raw)",
+            "unit": "gram per cubic meter",
+            "datatype": "double",
+            "id": "699",
+            "optional": "True"
+        },
+        "z": {
             "name": "Radar reflectivity factor",
             "shortname": "",
             "description": "Radar reflectivity factor by Ott software",
