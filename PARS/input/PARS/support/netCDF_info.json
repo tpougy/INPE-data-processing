@@ -1,7 +1,7 @@
 {
     "missing_value": -999.99,
     "global": {
-        "data_description": {
+        "description": {
             "name": "Data Description",
             "shortname": "description",
             "description": "General description of the data",
@@ -11,7 +11,7 @@
             "optional": "True",
             "value": "xyz xyz xyz"
         },
-        "site_identifier": {
+        "site_id": {
             "name": "Site identifier",
             "shortname": "id_int",
             "description": "Site-id: identifies the sites name",

@@ -245,35 +245,29 @@ def generate_netCDF(
 
     # ######################## GLOBAL VARIABLES ###########################
 
-    # variable: data_description
-    data_description = JOSS_CDF.createVariable(
-        netCDF_info["global"]["data_description"]["name"], "u8", ("str_dim",)
+    # variable: description
+    description = JOSS_CDF.createVariable(
+        netCDF_info["global"]["description"]["name"], "u8", ("str_dim",)
     )
-    data_description[:] = string2ascii_array(
-        netCDF_info["global"]["data_description"]["value"]
-    )
+    description[:] = string2ascii_array(netCDF_info["global"]["description"]["value"])
 
-    data_description.shortname = netCDF_info["global"]["data_description"]["shortname"]
-    data_description.description = netCDF_info["global"]["data_description"][
-        "description"
-    ]
-    data_description.unit = netCDF_info["global"]["data_description"]["unit"]
-    data_description.datatype = netCDF_info["global"]["data_description"]["datatype"]
-    data_description.id = netCDF_info["global"]["data_description"]["id"]
-    data_description.optional = netCDF_info["global"]["data_description"]["optional"]
+    description.shortname = netCDF_info["global"]["description"]["shortname"]
+    description.description = netCDF_info["global"]["description"]["description"]
+    description.unit = netCDF_info["global"]["description"]["unit"]
+    description.datatype = netCDF_info["global"]["description"]["datatype"]
+    description.id = netCDF_info["global"]["description"]["id"]
+    description.optional = netCDF_info["global"]["description"]["optional"]
 
     # variable: site_id
-    site_id = JOSS_CDF.createVariable(
-        netCDF_info["global"]["site_identifier"]["name"], "u8"
-    )
-    site_id[:] = np.int64(netCDF_info["global"]["site_identifier"]["value"])
+    site_id = JOSS_CDF.createVariable(netCDF_info["global"]["site_id"]["name"], "u8")
+    site_id[:] = np.int64(netCDF_info["global"]["site_id"]["value"])
 
-    site_id.shortname = netCDF_info["global"]["site_identifier"]["shortname"]
-    site_id.description = netCDF_info["global"]["site_identifier"]["description"]
-    site_id.unit = netCDF_info["global"]["site_identifier"]["unit"]
-    site_id.datatype = netCDF_info["global"]["site_identifier"]["datatype"]
-    site_id.id = netCDF_info["global"]["site_identifier"]["id"]
-    site_id.optional = netCDF_info["global"]["site_identifier"]["optional"]
+    site_id.shortname = netCDF_info["global"]["site_id"]["shortname"]
+    site_id.description = netCDF_info["global"]["site_id"]["description"]
+    site_id.unit = netCDF_info["global"]["site_id"]["unit"]
+    site_id.datatype = netCDF_info["global"]["site_id"]["datatype"]
+    site_id.id = netCDF_info["global"]["site_id"]["id"]
+    site_id.optional = netCDF_info["global"]["site_id"]["optional"]
 
     # variable: platform_id
     platform_id = JOSS_CDF.createVariable(

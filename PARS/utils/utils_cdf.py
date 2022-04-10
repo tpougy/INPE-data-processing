@@ -46,35 +46,29 @@ def generate_netCDF(
 
     # ######################## GLOBAL VARIABLES ###########################
 
-    # Variable: data_description
-    data_description = PARS_CDF.createVariable(
-        netCDF_info["global"]["data_description"]["name"], "u8", ("str_dim",)
+    # Variable: description
+    description = PARS_CDF.createVariable(
+        netCDF_info["global"]["description"]["name"], "u8", ("str_dim",)
     )
-    data_description[:] = string2ascii_array(
-        netCDF_info["global"]["data_description"]["value"]
-    )
+    description[:] = string2ascii_array(netCDF_info["global"]["description"]["value"])
 
-    data_description.shortname = netCDF_info["global"]["data_description"]["shortname"]
-    data_description.description = netCDF_info["global"]["data_description"][
-        "description"
-    ]
-    data_description.unit = netCDF_info["global"]["data_description"]["unit"]
-    data_description.datatype = netCDF_info["global"]["data_description"]["datatype"]
-    data_description.id = netCDF_info["global"]["data_description"]["id"]
-    data_description.optional = netCDF_info["global"]["data_description"]["optional"]
+    description.shortname = netCDF_info["global"]["description"]["shortname"]
+    description.description = netCDF_info["global"]["description"]["description"]
+    description.unit = netCDF_info["global"]["description"]["unit"]
+    description.datatype = netCDF_info["global"]["description"]["datatype"]
+    description.id = netCDF_info["global"]["description"]["id"]
+    description.optional = netCDF_info["global"]["description"]["optional"]
 
     # Variable: site_id
-    site_id = PARS_CDF.createVariable(
-        netCDF_info["global"]["site_identifier"]["name"], "u8"
-    )
-    site_id[:] = np.int64(netCDF_info["global"]["site_identifier"]["value"])
+    site_id = PARS_CDF.createVariable(netCDF_info["global"]["site_id"]["name"], "u8")
+    site_id[:] = np.int64(netCDF_info["global"]["site_id"]["value"])
 
-    site_id.shortname = netCDF_info["global"]["site_identifier"]["shortname"]
-    site_id.description = netCDF_info["global"]["site_identifier"]["description"]
-    site_id.unit = netCDF_info["global"]["site_identifier"]["unit"]
-    site_id.datatype = netCDF_info["global"]["site_identifier"]["datatype"]
-    site_id.id = netCDF_info["global"]["site_identifier"]["id"]
-    site_id.optional = netCDF_info["global"]["site_identifier"]["optional"]
+    site_id.shortname = netCDF_info["global"]["site_id"]["shortname"]
+    site_id.description = netCDF_info["global"]["site_id"]["description"]
+    site_id.unit = netCDF_info["global"]["site_id"]["unit"]
+    site_id.datatype = netCDF_info["global"]["site_id"]["datatype"]
+    site_id.id = netCDF_info["global"]["site_id"]["id"]
+    site_id.optional = netCDF_info["global"]["site_id"]["optional"]
 
     # Variable: platform_id
     platform_id = PARS_CDF.createVariable(
@@ -302,7 +296,7 @@ def generate_netCDF(
     time.id = netCDF_info["variables"]["time"]["id"]
     time.optional = netCDF_info["variables"]["time"]["optional"]
 
-    # ######################## DATA VARIABLES ###########################
+    # ################## PARSIVEL PARAMETERS VARIABLES ###########################
 
     # Variable: mean_diam
     mean_diam = PARS_CDF.createVariable(
@@ -352,6 +346,15 @@ def generate_netCDF(
 
     diam_interval[:] = variables_info["drop_class_param"]["delta_diam"]
 
+    # ############### DATA VARIABLES ###################
+
+    npv = calc_aux_var(
+        day_data[["sample_interval", "vpd"]],
+        variables_info["drop_class_param"]["mean_diam"],
+        variables_info["drop_class_param"]["vel_diam"],
+        variables_info["drop_class_param"]["delta_diam"],
+    )
+
     # Variable: ri
     ri = PARS_CDF.createVariable(
         netCDF_info["variables"]["ri"]["name"],
@@ -368,7 +371,7 @@ def generate_netCDF(
 
     ri[:] = np.array(
         calc_ri(
-            day_data[["sample_interval", "vpd"]],
+            npv,
             variables_info["drop_class_param"]["mean_diam"],
             variables_info["drop_class_param"]["vel_diam"],
             variables_info["drop_class_param"]["delta_diam"],
@@ -391,7 +394,7 @@ def generate_netCDF(
 
     z[:] = np.array(
         calc_z(
-            day_data[["sample_interval", "vpd"]],
+            npv,
             variables_info["drop_class_param"]["mean_diam"],
             variables_info["drop_class_param"]["vel_diam"],
             variables_info["drop_class_param"]["delta_diam"],
@@ -414,7 +417,7 @@ def generate_netCDF(
 
     lwc[:] = np.array(
         calc_lwc(
-            day_data[["sample_interval", "vpd"]],
+            npv,
             variables_info["drop_class_param"]["mean_diam"],
             variables_info["drop_class_param"]["vel_diam"],
             variables_info["drop_class_param"]["delta_diam"],
@@ -435,7 +438,7 @@ def generate_netCDF(
     error.id = netCDF_info["variables"]["error"]["id"]
     error.optional = netCDF_info["variables"]["error"]["optional"]
 
-    error[:] = day_data["error"].to_numpy().astype("float64")
+    error[:] = day_data["error"].to_numpy().astype("int64")
 
     # @@ Variable: psd
     # precisa pensar no formato da variável!!! Não consigo salvar uma matriz por posição do array no netCDF

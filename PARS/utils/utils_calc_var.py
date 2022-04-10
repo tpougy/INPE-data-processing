@@ -13,7 +13,7 @@ def calc_n(vpd):
 
 
 # concentration of particles per unit of volume passing by the effective surface area of the sensor
-def calc_npv(n, seff, delta_diam, integration_time, vel_diam):
+def calc_npv(n, seff, delta_diam, vel_diam, integration_time):
     return [
         (n_dc / (seff_dc * delta_diam_dc)) * integration_time / vel_diam_dc
         for n_dc, seff_dc, delta_diam_dc, vel_diam_dc in zip(
@@ -22,22 +22,32 @@ def calc_npv(n, seff, delta_diam, integration_time, vel_diam):
     ]
 
 
+def calc_aux_var(data, mean_diam, vel_diam, delta_diam):
+    n = []
+    seff = []
+    for _, row in data.iterrows():
+
+        n.append(calc_n(row["vpd"]))
+
+        seff.append(calc_seff(mean_diam))
+
+    return [
+        calc_npv(n_i, seff_i, delta_diam, vel_diam, row["sample_interval"])
+        for (_, row), n_i, seff_i in zip(data.iterrows(), n, seff)
+    ]
+
+
 # npv_dc is the concentration of particles per unit of volume per drop class
-def calc_ri(data, mean_diam, vel_diam, delta_diam):
+def calc_ri(npv, mean_diam, vel_diam, delta_diam):
     c = 6 * pi * pow(10, -6)
 
     ri = []
-    for _, row in data.iterrows():
 
-        n = calc_n(row["vpd"])
-
-        seff = calc_seff(mean_diam)
-
-        npv = calc_npv(n, seff, delta_diam, row["sample_interval"], vel_diam)
+    for npv_i in npv:
 
         r = c * sum(
             npv_dc * v_dc * pow(d, 3) * dd_dc
-            for npv_dc, d, v_dc, dd_dc in zip(npv, mean_diam, vel_diam, delta_diam)
+            for npv_dc, d, v_dc, dd_dc in zip(npv_i, mean_diam, vel_diam, delta_diam)
         )
 
         ri.append(r)
@@ -45,21 +55,15 @@ def calc_ri(data, mean_diam, vel_diam, delta_diam):
     return ri
 
 
-def calc_lwc(data, mean_diam, vel_diam, delta_diam):
+def calc_lwc(npv, mean_diam, vel_diam, delta_diam):
     c = 6 * pi * pow(10, -6)
 
     lwc = []
-    for _, row in data.iterrows():
-
-        n = calc_n(row["vpd"])
-
-        seff = calc_seff(mean_diam)
-
-        npv = calc_npv(n, seff, delta_diam, row["sample_interval"], vel_diam)
+    for npv_i in npv:
 
         r = c * sum(
             npv_dc * pow(d, 3) * dd_dc
-            for npv_dc, d, dd_dc in zip(npv, mean_diam, delta_diam)
+            for npv_dc, d, dd_dc in zip(npv_i, mean_diam, delta_diam)
         )
 
         lwc.append(r)
@@ -67,21 +71,15 @@ def calc_lwc(data, mean_diam, vel_diam, delta_diam):
     return lwc
 
 
-def calc_z(data, mean_diam, vel_diam, delta_diam):
+def calc_z(npv, mean_diam, vel_diam, delta_diam):
     c = 6 * pi * pow(10, -6)
 
     z = []
-    for _, row in data.iterrows():
-
-        n = calc_n(row["vpd"])
-
-        seff = calc_seff(mean_diam)
-
-        npv = calc_npv(n, seff, delta_diam, row["sample_interval"], vel_diam)
+    for npv_i in npv:
 
         r = sum(
             npv_dc * pow(d, 6) * dd_dc
-            for npv_dc, d, dd_dc in zip(npv, mean_diam, delta_diam)
+            for npv_dc, d, dd_dc in zip(npv_i, mean_diam, delta_diam)
         )
 
         z.append(r)
