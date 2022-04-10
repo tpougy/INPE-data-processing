@@ -118,7 +118,7 @@ for file in files:
 
     fig_metadata = {"disdrometer": "RD-80", "site": "Atto-Campina"}
 
-    list_variables_1D = ["ri", "zdb", "lwc"]
+    list_variables_1D = ["rain_rate", "zdb", "liq_water"]
 
     for var in list_variables_1D:
         print("\tFigure for variable {}".format(var))
@@ -137,7 +137,7 @@ for file in files:
         utils.gen_fig_NDropxDi(
             time_index_file_data,
             file_data["Rain Rate"],
-            variables_info["mean_diam"],
+            variables_info["drop_class"],
             file_data["Number of raindrops"],
             fig_metadata,
             output_folder,

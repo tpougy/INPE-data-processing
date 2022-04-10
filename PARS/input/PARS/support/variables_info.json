@@ -1,6 +1,6 @@
 {
     "pars_diam_file_columns": {
-        "mean_diam": 0,
+        "drop_class": 0,
         "delta_diam": 1,
         "vel_diam": 2
     },
@@ -73,7 +73,7 @@
             3.000,
             3.000
         ],
-        "mean_diam": [
+        "drop_class": [
             0.062,
             0.187,
             0.312,

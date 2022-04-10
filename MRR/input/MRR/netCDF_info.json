@@ -9,7 +9,7 @@
         "platform_id": "mrr",
         "facility_id": "cam",
         "data_level": "b0",
-        "location_description": "Amazon Tall Tower Observatory (ATTO), Amazonia, Brazil",
+        "location_description_description": "Amazon Tall Tower Observatory (ATTO), Amazonia, Brazil",
         "datastream": "attmrrcam.b0",
         "serial_number": "1 minute",
         "sampling_interval": "1 minute",
@@ -130,7 +130,7 @@
         "W": {
             "symbol": "fall_vel_mrr",
             "units": "m*s^(-1)",
-            "longname": "Fall Velocity",
+            "longname": "Fall fall_vell",
             "missing_value": "-999.0"
         }
     }

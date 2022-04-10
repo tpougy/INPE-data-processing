@@ -20,7 +20,7 @@
             "optional": "True",
             "value": "0"
         },
-        "platform_identifier": {
+        "platform_id": {
             "name": "Platform identifier",
             "shortname": "id_int",
             "description": "Platform-id: identifies the instrument",
@@ -30,7 +30,7 @@
             "optional": "True",
             "value": "0"
         },
-        "facility_identifier": {
+        "facility_id": {
             "name": "Facility identifier",
             "shortname": "id_int",
             "description": "Facility-id: identifies where the instrument is installed",
@@ -50,8 +50,8 @@
             "optional": "True",
             "value": "0"
         },
-        "location": {
-            "name": "Location",
+        "location_description": {
+            "name": "location_description",
             "shortname": "description",
             "description": "Describes the place where the equipment is installed",
             "unit": "none",
@@ -100,7 +100,7 @@
             "optional": "True",
             "value": "0"
         },
-        "calibration_date": {
+        "calib_date": {
             "name": "Calibration date",
             "shortname": "day",
             "description": "Calibration date",
@@ -178,7 +178,7 @@
             "id": "694",
             "optional": "True"
         },
-        "mean_diam": {
+        "drop_class": {
             "name": "Average diameter of drops",
             "shortname": "length",
             "description": "Average diameter of drops for every class  (raw)",
@@ -187,18 +187,18 @@
             "id": "707",
             "optional": "True"
         },
-        "velocity": {
-            "name": "Fall velocity of drop",
-            "shortname": "velocity",
-            "description": "Fall velocity of drop with diameter D  (raw)",
+        "fall_vell": {
+            "name": "Fall fall_vell of drop",
+            "shortname": "fall_vell",
+            "description": "Fall fall_vell of drop with diameter D  (raw)",
             "unit": "meter per second",
             "datatype": "double",
             "id": "710",
             "optional": "True"
         },
-        "diam_interval": {
+        "delta_diam": {
             "name": "Diameter interval",
-            "shortname": "velocity",
+            "shortname": "fall_vell",
             "description": "Diameter interval for every drop size class  (raw)",
             "unit": "milimeter",
             "datatype": "double",
@@ -232,7 +232,7 @@
             "id": "708",
             "optional": "True"
         },
-        "ri": {
+        "rain_rate": {
             "name": "Rain Rate",
             "shortname": "rainfall",
             "description": "Rain intensity  (raw)",
@@ -250,7 +250,7 @@
             "id": "714",
             "optional": "True"
         },
-        "lwc": {
+        "liq_water": {
             "name": "Liquid Water Content",
             "shortname": "",
             "description": "Liquid water content (raw)",

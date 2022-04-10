@@ -21,7 +21,7 @@
             "optional": "True",
             "value": "0"
         },
-        "platform_identifier": {
+        "platform_id": {
             "name": "Platform identifier",
             "shortname": "id_int",
             "description": "Platform-id: identifies the instrument",
@@ -31,7 +31,7 @@
             "optional": "True",
             "value": "0"
         },
-        "facility_identifier": {
+        "facility_id": {
             "name": "Facility identifier",
             "shortname": "id_int",
             "description": "Facility-id: identifies where the instrument is installed",
@@ -51,8 +51,8 @@
             "optional": "True",
             "value": "0"
         },
-        "location": {
-            "name": "Location",
+        "location_description": {
+            "name": "location_description",
             "shortname": "description",
             "description": "Describes the place where the equipment is installed",
             "unit": "none",
@@ -101,7 +101,7 @@
             "optional": "True",
             "value": "0"
         },
-        "calibration_date": {
+        "calib_date": {
             "name": "Calibration date",
             "shortname": "day",
             "description": "Calibration date",
@@ -184,7 +184,7 @@
             "id": "667",
             "optional": "True"
         },
-        "mean_diam": {
+        "drop_class": {
             "name": "Average diameter of drops",
             "shortname": "length",
             "description": "Average diameter of drops for every class  (raw)",
@@ -193,25 +193,25 @@
             "id": "679",
             "optional": "True"
         },
-        "velocity": {
-            "name": "Fall velocity of drop",
-            "shortname": "velocity",
-            "description": "Fall velocity of drop with diameter D (raw)",
+        "fall_vell": {
+            "name": "Fall fall_vell of drop",
+            "shortname": "fall_vell",
+            "description": "Fall fall_vell of drop with diameter D (raw)",
             "unit": "meter per second",
             "datatype": "double",
             "id": "681",
             "optional": "True"
         },
-        "diam_interval": {
+        "delta_diam": {
             "name": "Diameter interval",
-            "shortname": "velocity",
+            "shortname": "fall_vell",
             "description": "Diameter interval for every drop size class (raw)",
             "unit": "milimeter",
             "datatype": "double",
             "id": "680",
             "optional": "True"
         },
-        "sample_interval": {
+        "interval_sample": {
             "name": "Time interval of particle measurements",
             "shortname": "duration",
             "description": "Time interval of particle measurements",
@@ -220,7 +220,7 @@
             "id": "682",
             "optional": "True"
         },
-        "ri": {
+        "rain_rate": {
             "name": "Rain Rate",
             "shortname": "rainfall",
             "description": "Rain intensity by Ott software",
@@ -229,7 +229,7 @@
             "id": "683",
             "optional": "True"
         },
-        "lwc": {
+        "liq_water": {
             "name": "Liquid Water Content",
             "shortname": "",
             "description": "Liquid water content (raw)",
@@ -238,7 +238,7 @@
             "id": "699",
             "optional": "True"
         },
-        "z": {
+        "zdb": {
             "name": "Radar reflectivity factor",
             "shortname": "",
             "description": "Radar reflectivity factor by Ott software",
@@ -247,7 +247,7 @@
             "id": "685",
             "optional": "True"
         },
-        "psd": {
+        "raw_spectrum": {
             "name": "Raw particle size distribution",
             "shortname": "quantity",
             "description": "Raw data; Volume equivalent diamenter; Matrix (32x32) with the number of possible particles (32) versus fall velocities (32)",
@@ -256,10 +256,10 @@
             "id": "686",
             "optional": "True"
         },
-        "error": {
+        "err_code": {
             "name": "Error code",
             "shortname": "technicalError",
-            "description": "Lases sensor error code (0: OK, 1-3: pleaser check the manual)",
+            "description": "Lases sensor err_code code (0: OK, 1-3: pleaser check the manual)",
             "unit": "none",
             "datatype": "bool",
             "id": "687",

@@ -103,7 +103,7 @@ if args.filter:
         path_input_drop_class_param.joinpath("parsivel_matrix.txt"), dtype=float
     ).tolist()
 
-    # mean_diam, delta_diam, vel_diam
+    # drop_class, delta_diam, vel_diam
     pars_diam_file_values = np.loadtxt(
         path_input_drop_class_param.joinpath("parsivel_diameter.txt"), dtype=float
     )

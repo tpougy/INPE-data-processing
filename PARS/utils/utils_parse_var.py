@@ -22,7 +22,7 @@ def parse_z(x):
     return float(x)
 
 
-def parse_sample_interval(x):
+def parse_interval_sample(x):
     return int(x)
 
 

@@ -72,33 +72,29 @@ def generate_netCDF(
 
     # Variable: platform_id
     platform_id = PARS_CDF.createVariable(
-        netCDF_info["global"]["platform_identifier"]["name"], "u8"
+        netCDF_info["global"]["platform_id"]["name"], "u8"
     )
-    platform_id[:] = np.int64(netCDF_info["global"]["platform_identifier"]["value"])
+    platform_id[:] = np.int64(netCDF_info["global"]["platform_id"]["value"])
 
-    platform_id.shortname = netCDF_info["global"]["platform_identifier"]["shortname"]
-    platform_id.description = netCDF_info["global"]["platform_identifier"][
-        "description"
-    ]
-    platform_id.unit = netCDF_info["global"]["platform_identifier"]["unit"]
-    platform_id.datatype = netCDF_info["global"]["platform_identifier"]["datatype"]
-    platform_id.id = netCDF_info["global"]["platform_identifier"]["id"]
-    platform_id.optional = netCDF_info["global"]["platform_identifier"]["optional"]
+    platform_id.shortname = netCDF_info["global"]["platform_id"]["shortname"]
+    platform_id.description = netCDF_info["global"]["platform_id"]["description"]
+    platform_id.unit = netCDF_info["global"]["platform_id"]["unit"]
+    platform_id.datatype = netCDF_info["global"]["platform_id"]["datatype"]
+    platform_id.id = netCDF_info["global"]["platform_id"]["id"]
+    platform_id.optional = netCDF_info["global"]["platform_id"]["optional"]
 
     # Variable: facility_id
     facility_id = PARS_CDF.createVariable(
-        netCDF_info["global"]["facility_identifier"]["name"], "u8"
+        netCDF_info["global"]["facility_id"]["name"], "u8"
     )
-    facility_id[:] = np.int64(netCDF_info["global"]["facility_identifier"]["value"])
+    facility_id[:] = np.int64(netCDF_info["global"]["facility_id"]["value"])
 
-    facility_id.shortname = netCDF_info["global"]["facility_identifier"]["shortname"]
-    facility_id.description = netCDF_info["global"]["facility_identifier"][
-        "description"
-    ]
-    facility_id.unit = netCDF_info["global"]["facility_identifier"]["unit"]
-    facility_id.datatype = netCDF_info["global"]["facility_identifier"]["datatype"]
-    facility_id.id = netCDF_info["global"]["facility_identifier"]["id"]
-    facility_id.optional = netCDF_info["global"]["facility_identifier"]["optional"]
+    facility_id.shortname = netCDF_info["global"]["facility_id"]["shortname"]
+    facility_id.description = netCDF_info["global"]["facility_id"]["description"]
+    facility_id.unit = netCDF_info["global"]["facility_id"]["unit"]
+    facility_id.datatype = netCDF_info["global"]["facility_id"]["datatype"]
+    facility_id.id = netCDF_info["global"]["facility_id"]["id"]
+    facility_id.optional = netCDF_info["global"]["facility_id"]["optional"]
 
     # Variable: data_level
     data_level = PARS_CDF.createVariable(
@@ -113,16 +109,28 @@ def generate_netCDF(
     data_level.id = netCDF_info["global"]["data_level"]["id"]
     data_level.optional = netCDF_info["global"]["data_level"]["optional"]
 
-    # Variable: location
-    location = PARS_CDF.createVariable(netCDF_info["global"]["location"]["name"], "u8")
-    location[:] = np.int64(netCDF_info["global"]["location"]["value"])
+    # Variable: location_description
+    location_description = PARS_CDF.createVariable(
+        netCDF_info["global"]["location_description"]["name"], "u8"
+    )
+    location_description[:] = np.int64(
+        netCDF_info["global"]["location_description"]["value"]
+    )
 
-    location.shortname = netCDF_info["global"]["location"]["shortname"]
-    location.description = netCDF_info["global"]["location"]["description"]
-    location.unit = netCDF_info["global"]["location"]["unit"]
-    location.datatype = netCDF_info["global"]["location"]["datatype"]
-    location.id = netCDF_info["global"]["location"]["id"]
-    location.optional = netCDF_info["global"]["location"]["optional"]
+    location_description.shortname = netCDF_info["global"]["location_description"][
+        "shortname"
+    ]
+    location_description.description = netCDF_info["global"]["location_description"][
+        "description"
+    ]
+    location_description.unit = netCDF_info["global"]["location_description"]["unit"]
+    location_description.datatype = netCDF_info["global"]["location_description"][
+        "datatype"
+    ]
+    location_description.id = netCDF_info["global"]["location_description"]["id"]
+    location_description.optional = netCDF_info["global"]["location_description"][
+        "optional"
+    ]
 
     # Variable: datastream
     variable: datastream
@@ -181,25 +189,21 @@ def generate_netCDF(
     serial_number.id = netCDF_info["global"]["serial_number"]["id"]
     serial_number.optional = netCDF_info["global"]["serial_number"]["optional"]
 
-    # Variable: calibration_date
-    calibration_date = PARS_CDF.createVariable(
-        netCDF_info["global"]["calibration_date"]["name"], "u8"
+    # Variable: calib_date
+    calib_date = PARS_CDF.createVariable(
+        netCDF_info["global"]["calib_date"]["name"], "u8"
     )
-    calibration_date[:] = np.datetime64(
-        netCDF_info["global"]["calibration_date"]["value"]
-    )
+    calib_date[:] = np.datetime64(netCDF_info["global"]["calib_date"]["value"])
 
-    calibration_date.shortname = netCDF_info["global"]["calibration_date"]["shortname"]
-    calibration_date.description = netCDF_info["global"]["calibration_date"][
-        "description"
-    ]
-    calibration_date.unit = netCDF_info["global"]["calibration_date"]["unit"]
-    calibration_date.datatype = netCDF_info["global"]["calibration_date"]["datatype"]
-    calibration_date.id = netCDF_info["global"]["calibration_date"]["id"]
-    calibration_date.optional = netCDF_info["global"]["calibration_date"]["optional"]
+    calib_date.shortname = netCDF_info["global"]["calib_date"]["shortname"]
+    calib_date.description = netCDF_info["global"]["calib_date"]["description"]
+    calib_date.unit = netCDF_info["global"]["calib_date"]["unit"]
+    calib_date.datatype = netCDF_info["global"]["calib_date"]["datatype"]
+    calib_date.id = netCDF_info["global"]["calib_date"]["id"]
+    calib_date.optional = netCDF_info["global"]["calib_date"]["optional"]
 
     # Variable: lat
-    lat = PARS_CDF.createVariable(netCDF_info["global"]["lat"]["name"], "u8")
+    lat = PARS_CDF.createVariable(netCDF_info["global"]["lat"]["name"], "f8")
     lat[:] = np.float64(netCDF_info["global"]["lat"]["value"])
 
     lat.shortname = netCDF_info["global"]["lat"]["shortname"]
@@ -210,7 +214,7 @@ def generate_netCDF(
     lat.optional = netCDF_info["global"]["lat"]["optional"]
 
     # Variable: lon
-    lon = PARS_CDF.createVariable(netCDF_info["global"]["lon"]["name"], "u8")
+    lon = PARS_CDF.createVariable(netCDF_info["global"]["lon"]["name"], "f8")
     lon[:] = np.float64(netCDF_info["global"]["lon"]["value"])
 
     lon.shortname = netCDF_info["global"]["lon"]["shortname"]
@@ -221,7 +225,7 @@ def generate_netCDF(
     lon.optional = netCDF_info["global"]["lon"]["optional"]
 
     # Variable: alt
-    alt = PARS_CDF.createVariable(netCDF_info["global"]["alt"]["name"], "u8")
+    alt = PARS_CDF.createVariable(netCDF_info["global"]["alt"]["name"], "f8")
     alt[:] = np.float64(netCDF_info["global"]["alt"]["value"])
 
     alt.shortname = netCDF_info["global"]["alt"]["shortname"]
@@ -298,165 +302,169 @@ def generate_netCDF(
 
     # ################## PARSIVEL PARAMETERS VARIABLES ###########################
 
-    # Variable: mean_diam
-    mean_diam = PARS_CDF.createVariable(
-        netCDF_info["variables"]["mean_diam"]["name"],
+    # Variable: drop_class
+    drop_class = PARS_CDF.createVariable(
+        netCDF_info["variables"]["drop_class"]["name"],
         "f8",
         (netCDF_info["dimensions"]["drop_class"]["symbol"],),
     )
 
-    mean_diam.shortname = netCDF_info["variables"]["mean_diam"]["shortname"]
-    mean_diam.description = netCDF_info["variables"]["mean_diam"]["description"]
-    mean_diam.unit = netCDF_info["variables"]["mean_diam"]["unit"]
-    mean_diam.datatype = netCDF_info["variables"]["mean_diam"]["datatype"]
-    mean_diam.id = netCDF_info["variables"]["mean_diam"]["id"]
-    mean_diam.optional = netCDF_info["variables"]["mean_diam"]["optional"]
+    drop_class.shortname = netCDF_info["variables"]["drop_class"]["shortname"]
+    drop_class.description = netCDF_info["variables"]["drop_class"]["description"]
+    drop_class.unit = netCDF_info["variables"]["drop_class"]["unit"]
+    drop_class.datatype = netCDF_info["variables"]["drop_class"]["datatype"]
+    drop_class.id = netCDF_info["variables"]["drop_class"]["id"]
+    drop_class.optional = netCDF_info["variables"]["drop_class"]["optional"]
 
-    mean_diam[:] = variables_info["drop_class_param"]["mean_diam"]
+    drop_class[:] = variables_info["drop_class_param"]["drop_class"]
 
-    # Variable: velocity
-    velocity = PARS_CDF.createVariable(
-        netCDF_info["variables"]["velocity"]["name"],
+    # Variable: fall_vell
+    fall_vell = PARS_CDF.createVariable(
+        netCDF_info["variables"]["fall_vell"]["name"],
         "f8",
         (netCDF_info["dimensions"]["drop_class"]["symbol"],),
     )
 
-    velocity.shortname = netCDF_info["variables"]["velocity"]["shortname"]
-    velocity.description = netCDF_info["variables"]["velocity"]["description"]
-    velocity.unit = netCDF_info["variables"]["velocity"]["unit"]
-    velocity.datatype = netCDF_info["variables"]["velocity"]["datatype"]
-    velocity.id = netCDF_info["variables"]["velocity"]["id"]
-    velocity.optional = netCDF_info["variables"]["velocity"]["optional"]
+    fall_vell.shortname = netCDF_info["variables"]["fall_vell"]["shortname"]
+    fall_vell.description = netCDF_info["variables"]["fall_vell"]["description"]
+    fall_vell.unit = netCDF_info["variables"]["fall_vell"]["unit"]
+    fall_vell.datatype = netCDF_info["variables"]["fall_vell"]["datatype"]
+    fall_vell.id = netCDF_info["variables"]["fall_vell"]["id"]
+    fall_vell.optional = netCDF_info["variables"]["fall_vell"]["optional"]
 
-    velocity[:] = variables_info["drop_class_param"]["vel_diam"]
+    fall_vell[:] = variables_info["drop_class_param"]["vel_diam"]
 
-    # Variable: diam_interval
-    diam_interval = PARS_CDF.createVariable(
-        netCDF_info["variables"]["diam_interval"]["name"],
+    # Variable: delta_diam
+    delta_diam = PARS_CDF.createVariable(
+        netCDF_info["variables"]["delta_diam"]["name"],
         "f8",
         (netCDF_info["dimensions"]["drop_class"]["symbol"],),
     )
 
-    diam_interval.shortname = netCDF_info["variables"]["diam_interval"]["shortname"]
-    diam_interval.description = netCDF_info["variables"]["diam_interval"]["description"]
-    diam_interval.unit = netCDF_info["variables"]["diam_interval"]["unit"]
-    diam_interval.datatype = netCDF_info["variables"]["diam_interval"]["datatype"]
-    diam_interval.id = netCDF_info["variables"]["diam_interval"]["id"]
-    diam_interval.optional = netCDF_info["variables"]["diam_interval"]["optional"]
+    delta_diam.shortname = netCDF_info["variables"]["delta_diam"]["shortname"]
+    delta_diam.description = netCDF_info["variables"]["delta_diam"]["description"]
+    delta_diam.unit = netCDF_info["variables"]["delta_diam"]["unit"]
+    delta_diam.datatype = netCDF_info["variables"]["delta_diam"]["datatype"]
+    delta_diam.id = netCDF_info["variables"]["delta_diam"]["id"]
+    delta_diam.optional = netCDF_info["variables"]["delta_diam"]["optional"]
 
-    diam_interval[:] = variables_info["drop_class_param"]["delta_diam"]
+    delta_diam[:] = variables_info["drop_class_param"]["delta_diam"]
 
     # ############### DATA VARIABLES ###################
 
     npv = calc_aux_var(
-        day_data[["sample_interval", "vpd"]],
-        variables_info["drop_class_param"]["mean_diam"],
+        day_data[["interval_sample", "vpd"]],
+        variables_info["drop_class_param"]["drop_class"],
         variables_info["drop_class_param"]["vel_diam"],
         variables_info["drop_class_param"]["delta_diam"],
     )
 
-    # Variable: ri
-    ri = PARS_CDF.createVariable(
-        netCDF_info["variables"]["ri"]["name"],
+    # Variable: rain_rate
+    rain_rate = PARS_CDF.createVariable(
+        netCDF_info["variables"]["rain_rate"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    ri.shortname = netCDF_info["variables"]["ri"]["shortname"]
-    ri.description = netCDF_info["variables"]["ri"]["description"]
-    ri.unit = netCDF_info["variables"]["ri"]["unit"]
-    ri.datatype = netCDF_info["variables"]["ri"]["datatype"]
-    ri.id = netCDF_info["variables"]["ri"]["id"]
-    ri.optional = netCDF_info["variables"]["ri"]["optional"]
+    rain_rate.shortname = netCDF_info["variables"]["rain_rate"]["shortname"]
+    rain_rate.description = netCDF_info["variables"]["rain_rate"]["description"]
+    rain_rate.unit = netCDF_info["variables"]["rain_rate"]["unit"]
+    rain_rate.datatype = netCDF_info["variables"]["rain_rate"]["datatype"]
+    rain_rate.id = netCDF_info["variables"]["rain_rate"]["id"]
+    rain_rate.optional = netCDF_info["variables"]["rain_rate"]["optional"]
 
-    ri[:] = np.array(
+    rain_rate[:] = np.array(
         calc_ri(
             npv,
-            variables_info["drop_class_param"]["mean_diam"],
+            variables_info["drop_class_param"]["drop_class"],
             variables_info["drop_class_param"]["vel_diam"],
             variables_info["drop_class_param"]["delta_diam"],
         )
     ).astype("float64")
 
-    # Variable: z
-    z = PARS_CDF.createVariable(
-        netCDF_info["variables"]["z"]["name"],
+    # Variable: zdb
+    zdb = PARS_CDF.createVariable(
+        netCDF_info["variables"]["zdb"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    z.shortname = netCDF_info["variables"]["z"]["shortname"]
-    z.description = netCDF_info["variables"]["z"]["description"]
-    z.unit = netCDF_info["variables"]["z"]["unit"]
-    z.datatype = netCDF_info["variables"]["z"]["datatype"]
-    z.id = netCDF_info["variables"]["z"]["id"]
-    z.optional = netCDF_info["variables"]["z"]["optional"]
+    zdb.shortname = netCDF_info["variables"]["zdb"]["shortname"]
+    zdb.description = netCDF_info["variables"]["zdb"]["description"]
+    zdb.unit = netCDF_info["variables"]["zdb"]["unit"]
+    zdb.datatype = netCDF_info["variables"]["zdb"]["datatype"]
+    zdb.id = netCDF_info["variables"]["zdb"]["id"]
+    zdb.optional = netCDF_info["variables"]["zdb"]["optional"]
 
-    z[:] = np.array(
+    zdb[:] = np.array(
         calc_z(
             npv,
-            variables_info["drop_class_param"]["mean_diam"],
+            variables_info["drop_class_param"]["drop_class"],
             variables_info["drop_class_param"]["vel_diam"],
             variables_info["drop_class_param"]["delta_diam"],
         )
     ).astype("float64")
 
-    # Variable: lwc
-    lwc = PARS_CDF.createVariable(
-        netCDF_info["variables"]["lwc"]["name"],
+    # Variable: liq_water
+    liq_water = PARS_CDF.createVariable(
+        netCDF_info["variables"]["liq_water"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    lwc.shortname = netCDF_info["variables"]["lwc"]["shortname"]
-    lwc.description = netCDF_info["variables"]["lwc"]["description"]
-    lwc.unit = netCDF_info["variables"]["lwc"]["unit"]
-    lwc.datatype = netCDF_info["variables"]["lwc"]["datatype"]
-    lwc.id = netCDF_info["variables"]["lwc"]["id"]
-    lwc.optional = netCDF_info["variables"]["lwc"]["optional"]
+    liq_water.shortname = netCDF_info["variables"]["liq_water"]["shortname"]
+    liq_water.description = netCDF_info["variables"]["liq_water"]["description"]
+    liq_water.unit = netCDF_info["variables"]["liq_water"]["unit"]
+    liq_water.datatype = netCDF_info["variables"]["liq_water"]["datatype"]
+    liq_water.id = netCDF_info["variables"]["liq_water"]["id"]
+    liq_water.optional = netCDF_info["variables"]["liq_water"]["optional"]
 
-    lwc[:] = np.array(
-        calc_lwc(
+    liq_water[:] = np.array(
+        calc_liq_water(
             npv,
-            variables_info["drop_class_param"]["mean_diam"],
+            variables_info["drop_class_param"]["drop_class"],
             variables_info["drop_class_param"]["vel_diam"],
             variables_info["drop_class_param"]["delta_diam"],
         )
     ).astype("float64")
 
-    # Variable: error
-    error = PARS_CDF.createVariable(
-        netCDF_info["variables"]["error"]["name"],
+    # Variable: err_code
+    err_code = PARS_CDF.createVariable(
+        netCDF_info["variables"]["err_code"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    error.shortname = netCDF_info["variables"]["error"]["shortname"]
-    error.description = netCDF_info["variables"]["error"]["description"]
-    error.unit = netCDF_info["variables"]["error"]["unit"]
-    error.datatype = netCDF_info["variables"]["error"]["datatype"]
-    error.id = netCDF_info["variables"]["error"]["id"]
-    error.optional = netCDF_info["variables"]["error"]["optional"]
+    err_code.shortname = netCDF_info["variables"]["err_code"]["shortname"]
+    err_code.description = netCDF_info["variables"]["err_code"]["description"]
+    err_code.unit = netCDF_info["variables"]["err_code"]["unit"]
+    err_code.datatype = netCDF_info["variables"]["err_code"]["datatype"]
+    err_code.id = netCDF_info["variables"]["err_code"]["id"]
+    err_code.optional = netCDF_info["variables"]["err_code"]["optional"]
 
-    error[:] = day_data["error"].to_numpy().astype("int64")
+    err_code[:] = day_data["err_code"].to_numpy().astype("uint64")
 
-    # @@ Variable: psd
-    # precisa pensar no formato da variável!!! Não consigo salvar uma matriz por posição do array no netCDF
-    # talvez usar o formato bytes, mas teria problema com o tamanho do conjunto de bytes que é variável
+    # @@ Variable: raw_spectrum
 
-    # psd = PARS_CDF.createVariable(
-    #     netCDF_info["variables"]["psd"]["name"],
-    #     "f8",
-    #     (netCDF_info["dimensions"]["time"]["symbol"],),
-    # )
+    raw_spectrum = PARS_CDF.createVariable(
+        netCDF_info["variables"]["raw_spectrum"]["name"],
+        "f8",
+        (
+            netCDF_info["dimensions"]["drop_class"]["symbol"],
+            netCDF_info["dimensions"]["drop_class"]["symbol"],
+            netCDF_info["dimensions"]["time"]["symbol"],
+        ),
+    )
 
-    # psd.shortname = netCDF_info["variables"]["psd"]["shortname"]
-    # psd.description = netCDF_info["variables"]["psd"]["description"]
-    # psd.unit = netCDF_info["variables"]["psd"]["unit"]
-    # psd.datatype = netCDF_info["variables"]["psd"]["datatype"]
-    # psd.id = netCDF_info["variables"]["psd"]["id"]
-    # psd.optional = netCDF_info["variables"]["psd"]["optional"]
+    raw_spectrum.shortname = netCDF_info["variables"]["raw_spectrum"]["shortname"]
+    raw_spectrum.description = netCDF_info["variables"]["raw_spectrum"]["description"]
+    raw_spectrum.unit = netCDF_info["variables"]["raw_spectrum"]["unit"]
+    raw_spectrum.datatype = netCDF_info["variables"]["raw_spectrum"]["datatype"]
+    raw_spectrum.id = netCDF_info["variables"]["raw_spectrum"]["id"]
+    raw_spectrum.optional = netCDF_info["variables"]["raw_spectrum"]["optional"]
 
-    # psd[:] = day_data["vpd"].values
+    raw_spectrum[:] = np.dstack(
+        [np.array(reg) for reg in day_data["vpd"].values]
+    ).astype("float64")
 
     PARS_CDF.close()

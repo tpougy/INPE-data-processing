@@ -94,7 +94,9 @@ def generate_netCDF(
     MRR_CDF.platform_id = netCDF_info["global"]["platform_id"]
     MRR_CDF.facility_id = netCDF_info["global"]["facility_id"]
     MRR_CDF.data_level = netCDF_info["global"]["data_level"]
-    MRR_CDF.location_description = netCDF_info["global"]["location_description"]
+    MRR_CDF.location_description_description = netCDF_info["global"][
+        "location_description_description"
+    ]
     MRR_CDF.datastream = netCDF_info["global"]["datastream"]
     MRR_CDF.serial_number = netCDF_info["global"]["serial_number"]
     MRR_CDF.sampling_interval = netCDF_info["global"]["sampling_interval"]

@@ -47,7 +47,7 @@ RR_unit = "mm*h^(-1)"
 LWC_longname = "Liquid Water Contents"
 LWC_unit = "g*m^(-3)"
 
-W_longname = "Fall Velocity"
+W_longname = "Fall fall_vell"
 W_unit = "m*s^(-1)"
 
 ############################# SCALES ############################################

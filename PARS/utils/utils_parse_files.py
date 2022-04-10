@@ -40,7 +40,7 @@ def parse_files(files, variables_info):
 
                 #### essential variable ####
                 elif lines[i]["idx"] == 9:
-                    var_iteration[2] = parse_sample_interval(lines[i]["value"])
+                    var_iteration[2] = parse_interval_sample(lines[i]["value"])
 
                 # normal variable
                 elif lines[i]["idx"] == 13:
@@ -83,12 +83,12 @@ def parse_files(files, variables_info):
                 pd.DataFrame.from_records(
                     var_comp,
                     columns=[
-                        "ri",
-                        "z",
-                        "sample_interval",
+                        "rain_rate",
+                        "zdb",
+                        "interval_sample",
                         "serial",
                         "datetime",
-                        "error",
+                        "err_code",
                         "vpd",
                     ],
                     index="datetime",

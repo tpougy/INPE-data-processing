@@ -85,7 +85,7 @@ def gen_fig_NDropxDi(time_index, data1, index2, data2, fig_metadata, output_fold
     fig1.update_yaxes(title_text="Rain Rate (mm/h)")
     # Fig2 is the figure for the NDrop x Di
     # data2 = file_data["Number of raindrops"][sec][:]
-    # index2 = variables_info["mean_diam"]
+    # index2 = variables_info["drop_class"]
     notes2 = []
 
     notes2.append(

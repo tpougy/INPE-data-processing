@@ -86,23 +86,23 @@ def get_day_data(all_data, export_date, variables_info):
 
 # data is day_data[variables_info["drop_size"]]
 # t is variables_info["integration_time"]
-def get_ri(data, drop_size, mean_diam, velocity, t):
+def get_ri(data, drop_size, drop_class, fall_vell, t):
 
     c = (math.pi * 3.6) / (6 * pow(10, 3) * 0.005 * t)
 
-    ri = []
+    rain_rate = []
     for idx, row in data.iterrows():
         r = c * sum(
             (row[n] * pow(diam, 3))
-            for n, diam, vel in zip(drop_size, mean_diam, velocity)
+            for n, diam, vel in zip(drop_size, drop_class, fall_vell)
         )
-        ri.append(r)
+        rain_rate.append(r)
 
-    return ri
+    return rain_rate
 
 
 def get_ra(ri_data, t):
-    return [ri * t / 3600 for ri in ri_data]
+    return [rain_rate * t / 3600 for rain_rate in ri_data]
 
 
 def get_rat(ra_data):
@@ -111,23 +111,23 @@ def get_rat(ra_data):
 
 # data is day_data[variables_info["drop_size"]]
 # t is variables_info["integration_time"]
-def get_lwc(data, drop_size, mean_diam, velocity, t):
+def get_liq_water(data, drop_size, drop_class, fall_vell, t):
 
     c = math.pi / (6 * 0.005 * t)
 
-    lwc = []
+    liq_water = []
     for idx, row in data.iterrows():
         r = c * sum(
             (row[n] * pow(diam, 3)) / vel
-            for n, diam, vel in zip(drop_size, mean_diam, velocity)
+            for n, diam, vel in zip(drop_size, drop_class, fall_vell)
         )
-        lwc.append(r)
+        liq_water.append(r)
 
-    return lwc
+    return liq_water
 
 
 # data is day_data[variables_info["drop_size"]]
-def get_z(data, drop_size, mean_diam, velocity, t):
+def get_z(data, drop_size, drop_class, fall_vell, t):
 
     c = 1 / (0.005 * t)
 
@@ -135,7 +135,7 @@ def get_z(data, drop_size, mean_diam, velocity, t):
     for idx, row in data.iterrows():
         r = c * sum(
             (row[n] * pow(diam, 6)) / vel
-            for n, diam, vel in zip(drop_size, mean_diam, velocity)
+            for n, diam, vel in zip(drop_size, drop_class, fall_vell)
         )
         z.append(r)
 
@@ -147,7 +147,7 @@ def get_zdb(z_data):
     return [10 * math.log(z, 10) if z > 0 else 0 for z in z_data]
 
 
-def get_ek(data, drop_size, mean_diam, velocity):
+def get_ek(data, drop_size, drop_class, fall_vell):
 
     c = math.pi / (12 * 0.005 * pow(10, 6))
 
@@ -155,7 +155,7 @@ def get_ek(data, drop_size, mean_diam, velocity):
     for idx, row in data.iterrows():
         r = c * sum(
             row[n] * pow(diam, 3) * pow(vel, 2)
-            for n, diam, vel in zip(drop_size, mean_diam, velocity)
+            for n, diam, vel in zip(drop_size, drop_class, fall_vell)
         )
         ek.append(r)
 
@@ -167,22 +167,23 @@ def get_ef(ek_data, t):
     return [ek * 3600 / t for ek in ek_data]
 
 
-def get_n_0(lwc_data, z_data):
+def get_n_0(liq_water_data, z_data):
 
     c = (1 / math.pi) * pow((math.factorial(6) / math.pi), 4 / 3)
 
     return [
-        c * lwc * pow(lwc / z, 4 / 3) if z != 0 else 0
-        for lwc, z in zip(lwc_data, z_data)
+        c * liq_water * pow(liq_water / z, 4 / 3) if z != 0 else 0
+        for liq_water, z in zip(liq_water_data, z_data)
     ]
 
 
-def get_slope(lwc_data, z_data):
+def get_slope(liq_water_data, z_data):
 
     c = math.factorial(6) / math.pi
 
     return [
-        pow(c * lwc / z, 1 / 3) if z != 0 else 0 for lwc, z in zip(lwc_data, z_data)
+        pow(c * liq_water / z, 1 / 3) if z != 0 else 0
+        for liq_water, z in zip(liq_water_data, z_data)
     ]
 
 
@@ -191,7 +192,7 @@ def get_d_max(data):
     return [row.max() for idx, row in data.iterrows()]
 
 
-def get_n_d(data, drop_size, delta_diam, velocity, t):
+def get_n_d(data, drop_size, delta_diam, fall_vell, t):
 
     c = 1 / (math.pi * t)
 
@@ -199,7 +200,7 @@ def get_n_d(data, drop_size, delta_diam, velocity, t):
     for idx, row in data.iterrows():
         n_d_i = [
             row[n] / (vel * ddiam)
-            for n, ddiam, vel in zip(drop_size, delta_diam, velocity)
+            for n, ddiam, vel in zip(drop_size, delta_diam, fall_vell)
         ]
         n_d.append(n_d_i)
 
@@ -271,33 +272,29 @@ def generate_netCDF(
 
     # variable: platform_id
     platform_id = JOSS_CDF.createVariable(
-        netCDF_info["global"]["platform_identifier"]["name"], "u8"
+        netCDF_info["global"]["platform_id"]["name"], "u8"
     )
-    platform_id[:] = np.int64(netCDF_info["global"]["platform_identifier"]["value"])
+    platform_id[:] = np.int64(netCDF_info["global"]["platform_id"]["value"])
 
-    platform_id.shortname = netCDF_info["global"]["platform_identifier"]["shortname"]
-    platform_id.description = netCDF_info["global"]["platform_identifier"][
-        "description"
-    ]
-    platform_id.unit = netCDF_info["global"]["platform_identifier"]["unit"]
-    platform_id.datatype = netCDF_info["global"]["platform_identifier"]["datatype"]
-    platform_id.id = netCDF_info["global"]["platform_identifier"]["id"]
-    platform_id.optional = netCDF_info["global"]["platform_identifier"]["optional"]
+    platform_id.shortname = netCDF_info["global"]["platform_id"]["shortname"]
+    platform_id.description = netCDF_info["global"]["platform_id"]["description"]
+    platform_id.unit = netCDF_info["global"]["platform_id"]["unit"]
+    platform_id.datatype = netCDF_info["global"]["platform_id"]["datatype"]
+    platform_id.id = netCDF_info["global"]["platform_id"]["id"]
+    platform_id.optional = netCDF_info["global"]["platform_id"]["optional"]
 
     # variable: facility_id
     facility_id = JOSS_CDF.createVariable(
-        netCDF_info["global"]["facility_identifier"]["name"], "u8"
+        netCDF_info["global"]["facility_id"]["name"], "u8"
     )
-    facility_id[:] = np.int64(netCDF_info["global"]["facility_identifier"]["value"])
+    facility_id[:] = np.int64(netCDF_info["global"]["facility_id"]["value"])
 
-    facility_id.shortname = netCDF_info["global"]["facility_identifier"]["shortname"]
-    facility_id.description = netCDF_info["global"]["facility_identifier"][
-        "description"
-    ]
-    facility_id.unit = netCDF_info["global"]["facility_identifier"]["unit"]
-    facility_id.datatype = netCDF_info["global"]["facility_identifier"]["datatype"]
-    facility_id.id = netCDF_info["global"]["facility_identifier"]["id"]
-    facility_id.optional = netCDF_info["global"]["facility_identifier"]["optional"]
+    facility_id.shortname = netCDF_info["global"]["facility_id"]["shortname"]
+    facility_id.description = netCDF_info["global"]["facility_id"]["description"]
+    facility_id.unit = netCDF_info["global"]["facility_id"]["unit"]
+    facility_id.datatype = netCDF_info["global"]["facility_id"]["datatype"]
+    facility_id.id = netCDF_info["global"]["facility_id"]["id"]
+    facility_id.optional = netCDF_info["global"]["facility_id"]["optional"]
 
     # variable: data_level
     data_level = JOSS_CDF.createVariable(
@@ -312,16 +309,28 @@ def generate_netCDF(
     data_level.id = netCDF_info["global"]["data_level"]["id"]
     data_level.optional = netCDF_info["global"]["data_level"]["optional"]
 
-    # variable: location
-    location = JOSS_CDF.createVariable(netCDF_info["global"]["location"]["name"], "u8")
-    location[:] = np.int64(netCDF_info["global"]["location"]["value"])
+    # variable: location_description
+    location_description = JOSS_CDF.createVariable(
+        netCDF_info["global"]["location_description"]["name"], "u8"
+    )
+    location_description[:] = np.int64(
+        netCDF_info["global"]["location_description"]["value"]
+    )
 
-    location.shortname = netCDF_info["global"]["location"]["shortname"]
-    location.description = netCDF_info["global"]["location"]["description"]
-    location.unit = netCDF_info["global"]["location"]["unit"]
-    location.datatype = netCDF_info["global"]["location"]["datatype"]
-    location.id = netCDF_info["global"]["location"]["id"]
-    location.optional = netCDF_info["global"]["location"]["optional"]
+    location_description.shortname = netCDF_info["global"]["location_description"][
+        "shortname"
+    ]
+    location_description.description = netCDF_info["global"]["location_description"][
+        "description"
+    ]
+    location_description.unit = netCDF_info["global"]["location_description"]["unit"]
+    location_description.datatype = netCDF_info["global"]["location_description"][
+        "datatype"
+    ]
+    location_description.id = netCDF_info["global"]["location_description"]["id"]
+    location_description.optional = netCDF_info["global"]["location_description"][
+        "optional"
+    ]
 
     variable: datastream
     datastream = JOSS_CDF.createVariable(
@@ -379,22 +388,18 @@ def generate_netCDF(
     serial_number.id = netCDF_info["global"]["serial_number"]["id"]
     serial_number.optional = netCDF_info["global"]["serial_number"]["optional"]
 
-    # variable: calibration_date
-    calibration_date = JOSS_CDF.createVariable(
-        netCDF_info["global"]["calibration_date"]["name"], "u8"
+    # variable: calib_date
+    calib_date = JOSS_CDF.createVariable(
+        netCDF_info["global"]["calib_date"]["name"], "u8"
     )
-    calibration_date[:] = np.datetime64(
-        netCDF_info["global"]["calibration_date"]["value"]
-    )
+    calib_date[:] = np.datetime64(netCDF_info["global"]["calib_date"]["value"])
 
-    calibration_date.shortname = netCDF_info["global"]["calibration_date"]["shortname"]
-    calibration_date.description = netCDF_info["global"]["calibration_date"][
-        "description"
-    ]
-    calibration_date.unit = netCDF_info["global"]["calibration_date"]["unit"]
-    calibration_date.datatype = netCDF_info["global"]["calibration_date"]["datatype"]
-    calibration_date.id = netCDF_info["global"]["calibration_date"]["id"]
-    calibration_date.optional = netCDF_info["global"]["calibration_date"]["optional"]
+    calib_date.shortname = netCDF_info["global"]["calib_date"]["shortname"]
+    calib_date.description = netCDF_info["global"]["calib_date"]["description"]
+    calib_date.unit = netCDF_info["global"]["calib_date"]["unit"]
+    calib_date.datatype = netCDF_info["global"]["calib_date"]["datatype"]
+    calib_date.id = netCDF_info["global"]["calib_date"]["id"]
+    calib_date.optional = netCDF_info["global"]["calib_date"]["optional"]
 
     # variable: lat
     lat = JOSS_CDF.createVariable(netCDF_info["global"]["lat"]["name"], "u8")
@@ -496,53 +501,53 @@ def generate_netCDF(
 
     # ######################## DATA VARIABLES ###########################
 
-    # Variable: mean_diam
-    mean_diam = JOSS_CDF.createVariable(
-        netCDF_info["variables"]["mean_diam"]["name"],
+    # Variable: drop_class
+    drop_class = JOSS_CDF.createVariable(
+        netCDF_info["variables"]["drop_class"]["name"],
         "f8",
         (netCDF_info["dimensions"]["drop_class"]["symbol"],),
     )
 
-    mean_diam.shortname = netCDF_info["variables"]["mean_diam"]["shortname"]
-    mean_diam.description = netCDF_info["variables"]["mean_diam"]["description"]
-    mean_diam.unit = netCDF_info["variables"]["mean_diam"]["unit"]
-    mean_diam.datatype = netCDF_info["variables"]["mean_diam"]["datatype"]
-    mean_diam.id = netCDF_info["variables"]["mean_diam"]["id"]
-    mean_diam.optional = netCDF_info["variables"]["mean_diam"]["optional"]
+    drop_class.shortname = netCDF_info["variables"]["drop_class"]["shortname"]
+    drop_class.description = netCDF_info["variables"]["drop_class"]["description"]
+    drop_class.unit = netCDF_info["variables"]["drop_class"]["unit"]
+    drop_class.datatype = netCDF_info["variables"]["drop_class"]["datatype"]
+    drop_class.id = netCDF_info["variables"]["drop_class"]["id"]
+    drop_class.optional = netCDF_info["variables"]["drop_class"]["optional"]
 
-    mean_diam[:] = variables_info["mean_diam"]
+    drop_class[:] = variables_info["drop_class"]
 
-    # Variable: velocity
-    velocity = JOSS_CDF.createVariable(
-        netCDF_info["variables"]["velocity"]["name"],
+    # Variable: fall_vell
+    fall_vell = JOSS_CDF.createVariable(
+        netCDF_info["variables"]["fall_vell"]["name"],
         "f8",
         (netCDF_info["dimensions"]["drop_class"]["symbol"],),
     )
 
-    velocity.shortname = netCDF_info["variables"]["velocity"]["shortname"]
-    velocity.description = netCDF_info["variables"]["velocity"]["description"]
-    velocity.unit = netCDF_info["variables"]["velocity"]["unit"]
-    velocity.datatype = netCDF_info["variables"]["velocity"]["datatype"]
-    velocity.id = netCDF_info["variables"]["velocity"]["id"]
-    velocity.optional = netCDF_info["variables"]["velocity"]["optional"]
+    fall_vell.shortname = netCDF_info["variables"]["fall_vell"]["shortname"]
+    fall_vell.description = netCDF_info["variables"]["fall_vell"]["description"]
+    fall_vell.unit = netCDF_info["variables"]["fall_vell"]["unit"]
+    fall_vell.datatype = netCDF_info["variables"]["fall_vell"]["datatype"]
+    fall_vell.id = netCDF_info["variables"]["fall_vell"]["id"]
+    fall_vell.optional = netCDF_info["variables"]["fall_vell"]["optional"]
 
-    velocity[:] = variables_info["velocity"]
+    fall_vell[:] = variables_info["fall_vell"]
 
-    # Variable: diam_interval
-    diam_interval = JOSS_CDF.createVariable(
-        netCDF_info["variables"]["diam_interval"]["name"],
+    # Variable: delta_diam
+    delta_diam = JOSS_CDF.createVariable(
+        netCDF_info["variables"]["delta_diam"]["name"],
         "f8",
         (netCDF_info["dimensions"]["drop_class"]["symbol"],),
     )
 
-    diam_interval.shortname = netCDF_info["variables"]["diam_interval"]["shortname"]
-    diam_interval.description = netCDF_info["variables"]["diam_interval"]["description"]
-    diam_interval.unit = netCDF_info["variables"]["diam_interval"]["unit"]
-    diam_interval.datatype = netCDF_info["variables"]["diam_interval"]["datatype"]
-    diam_interval.id = netCDF_info["variables"]["diam_interval"]["id"]
-    diam_interval.optional = netCDF_info["variables"]["diam_interval"]["optional"]
+    delta_diam.shortname = netCDF_info["variables"]["delta_diam"]["shortname"]
+    delta_diam.description = netCDF_info["variables"]["delta_diam"]["description"]
+    delta_diam.unit = netCDF_info["variables"]["delta_diam"]["unit"]
+    delta_diam.datatype = netCDF_info["variables"]["delta_diam"]["datatype"]
+    delta_diam.id = netCDF_info["variables"]["delta_diam"]["id"]
+    delta_diam.optional = netCDF_info["variables"]["delta_diam"]["optional"]
 
-    diam_interval[:] = variables_info["delta_diam"]
+    delta_diam[:] = variables_info["delta_diam"]
 
     # Variable: n
     n = JOSS_CDF.createVariable(
@@ -603,31 +608,31 @@ def generate_netCDF(
             day_data[variables_info["drop_size"]],
             variables_info["drop_size"],
             variables_info["delta_diam"],
-            variables_info["velocity"],
+            variables_info["fall_vell"],
             variables_info["integration_time"],
         )
     ).astype("float64")
 
-    # Variable: ri
-    ri = JOSS_CDF.createVariable(
-        netCDF_info["variables"]["ri"]["name"],
+    # Variable: rain_rate
+    rain_rate = JOSS_CDF.createVariable(
+        netCDF_info["variables"]["rain_rate"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    ri.shortname = netCDF_info["variables"]["ri"]["shortname"]
-    ri.description = netCDF_info["variables"]["ri"]["description"]
-    ri.unit = netCDF_info["variables"]["ri"]["unit"]
-    ri.datatype = netCDF_info["variables"]["ri"]["datatype"]
-    ri.id = netCDF_info["variables"]["ri"]["id"]
-    ri.optional = netCDF_info["variables"]["ri"]["optional"]
+    rain_rate.shortname = netCDF_info["variables"]["rain_rate"]["shortname"]
+    rain_rate.description = netCDF_info["variables"]["rain_rate"]["description"]
+    rain_rate.unit = netCDF_info["variables"]["rain_rate"]["unit"]
+    rain_rate.datatype = netCDF_info["variables"]["rain_rate"]["datatype"]
+    rain_rate.id = netCDF_info["variables"]["rain_rate"]["id"]
+    rain_rate.optional = netCDF_info["variables"]["rain_rate"]["optional"]
 
-    ri[:] = np.array(
+    rain_rate[:] = np.array(
         get_ri(
             day_data[variables_info["drop_size"]],
             variables_info["drop_size"],
-            variables_info["mean_diam"],
-            variables_info["velocity"],
+            variables_info["drop_class"],
+            variables_info["fall_vell"],
             variables_info["integration_time"],
         )
     ).astype("float64")
@@ -651,33 +656,33 @@ def generate_netCDF(
             get_z(
                 day_data[variables_info["drop_size"]],
                 variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
+                variables_info["drop_class"],
+                variables_info["fall_vell"],
                 variables_info["integration_time"],
             )
         )
     ).astype("float64")
 
-    # Variable: lwc
-    lwc = JOSS_CDF.createVariable(
-        netCDF_info["variables"]["lwc"]["name"],
+    # Variable: liq_water
+    liq_water = JOSS_CDF.createVariable(
+        netCDF_info["variables"]["liq_water"]["name"],
         "f8",
         (netCDF_info["dimensions"]["time"]["symbol"],),
     )
 
-    lwc.shortname = netCDF_info["variables"]["lwc"]["shortname"]
-    lwc.description = netCDF_info["variables"]["lwc"]["description"]
-    lwc.unit = netCDF_info["variables"]["lwc"]["unit"]
-    lwc.datatype = netCDF_info["variables"]["lwc"]["datatype"]
-    lwc.id = netCDF_info["variables"]["lwc"]["id"]
-    lwc.optional = netCDF_info["variables"]["lwc"]["optional"]
+    liq_water.shortname = netCDF_info["variables"]["liq_water"]["shortname"]
+    liq_water.description = netCDF_info["variables"]["liq_water"]["description"]
+    liq_water.unit = netCDF_info["variables"]["liq_water"]["unit"]
+    liq_water.datatype = netCDF_info["variables"]["liq_water"]["datatype"]
+    liq_water.id = netCDF_info["variables"]["liq_water"]["id"]
+    liq_water.optional = netCDF_info["variables"]["liq_water"]["optional"]
 
-    lwc[:] = np.array(
-        get_lwc(
+    liq_water[:] = np.array(
+        get_liq_water(
             day_data[variables_info["drop_size"]],
             variables_info["drop_size"],
-            variables_info["mean_diam"],
-            variables_info["velocity"],
+            variables_info["drop_class"],
+            variables_info["fall_vell"],
             variables_info["integration_time"],
         )
     ).astype("float64")
@@ -701,8 +706,8 @@ def generate_netCDF(
             get_ek(
                 day_data[variables_info["drop_size"]],
                 variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
+                variables_info["drop_class"],
+                variables_info["fall_vell"],
             ),
             variables_info["integration_time"],
         )
@@ -724,18 +729,18 @@ def generate_netCDF(
 
     slope[:] = np.array(
         get_slope(
-            get_lwc(
+            get_liq_water(
                 day_data[variables_info["drop_size"]],
                 variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
+                variables_info["drop_class"],
+                variables_info["fall_vell"],
                 variables_info["integration_time"],
             ),
             get_z(
                 day_data[variables_info["drop_size"]],
                 variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
+                variables_info["drop_class"],
+                variables_info["fall_vell"],
                 variables_info["integration_time"],
             ),
         )
@@ -757,18 +762,18 @@ def generate_netCDF(
 
     n_0[:] = np.array(
         get_n_0(
-            get_lwc(
+            get_liq_water(
                 day_data[variables_info["drop_size"]],
                 variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
+                variables_info["drop_class"],
+                variables_info["fall_vell"],
                 variables_info["integration_time"],
             ),
             get_z(
                 day_data[variables_info["drop_size"]],
                 variables_info["drop_size"],
-                variables_info["mean_diam"],
-                variables_info["velocity"],
+                variables_info["drop_class"],
+                variables_info["fall_vell"],
                 variables_info["integration_time"],
             ),
         )

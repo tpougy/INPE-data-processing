@@ -3,8 +3,8 @@ from math import pi
 import numpy as np
 
 # Effetive parsivel area
-def calc_seff(mean_diam):
-    return [(180 * (30 - (d / 2))) * (pow(10, -6)) for d in mean_diam]
+def calc_seff(drop_class):
+    return [(180 * (30 - (d / 2))) * (pow(10, -6)) for d in drop_class]
 
 
 # number of particles per drop class
@@ -22,66 +22,66 @@ def calc_npv(n, seff, delta_diam, vel_diam, integration_time):
     ]
 
 
-def calc_aux_var(data, mean_diam, vel_diam, delta_diam):
+def calc_aux_var(data, drop_class, vel_diam, delta_diam):
     n = []
     seff = []
     for _, row in data.iterrows():
 
         n.append(calc_n(row["vpd"]))
 
-        seff.append(calc_seff(mean_diam))
+        seff.append(calc_seff(drop_class))
 
     return [
-        calc_npv(n_i, seff_i, delta_diam, vel_diam, row["sample_interval"])
+        calc_npv(n_i, seff_i, delta_diam, vel_diam, row["interval_sample"])
         for (_, row), n_i, seff_i in zip(data.iterrows(), n, seff)
     ]
 
 
 # npv_dc is the concentration of particles per unit of volume per drop class
-def calc_ri(npv, mean_diam, vel_diam, delta_diam):
+def calc_ri(npv, drop_class, vel_diam, delta_diam):
     c = 6 * pi * pow(10, -6)
 
-    ri = []
+    rain_rate = []
 
     for npv_i in npv:
 
         r = c * sum(
             npv_dc * v_dc * pow(d, 3) * dd_dc
-            for npv_dc, d, v_dc, dd_dc in zip(npv_i, mean_diam, vel_diam, delta_diam)
+            for npv_dc, d, v_dc, dd_dc in zip(npv_i, drop_class, vel_diam, delta_diam)
         )
 
-        ri.append(r)
+        rain_rate.append(r)
 
-    return ri
+    return rain_rate
 
 
-def calc_lwc(npv, mean_diam, vel_diam, delta_diam):
+def calc_liq_water(npv, drop_class, vel_diam, delta_diam):
     c = 6 * pi * pow(10, -6)
 
-    lwc = []
+    liq_water = []
     for npv_i in npv:
 
         r = c * sum(
             npv_dc * pow(d, 3) * dd_dc
-            for npv_dc, d, dd_dc in zip(npv_i, mean_diam, delta_diam)
+            for npv_dc, d, dd_dc in zip(npv_i, drop_class, delta_diam)
         )
 
-        lwc.append(r)
+        liq_water.append(r)
 
-    return lwc
+    return liq_water
 
 
-def calc_z(npv, mean_diam, vel_diam, delta_diam):
+def calc_z(npv, drop_class, vel_diam, delta_diam):
     c = 6 * pi * pow(10, -6)
 
-    z = []
+    zdb = []
     for npv_i in npv:
 
         r = sum(
             npv_dc * pow(d, 6) * dd_dc
-            for npv_dc, d, dd_dc in zip(npv_i, mean_diam, delta_diam)
+            for npv_dc, d, dd_dc in zip(npv_i, drop_class, delta_diam)
         )
 
-        z.append(r)
+        zdb.append(r)
 
-    return z
+    return zdb
